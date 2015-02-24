@@ -1,7 +1,19 @@
 
 #Uso Básico
+
+O `WallaceMaxters\Timer` pode ser instalado através do composer:
+
+```
+{
+    "require": {
+        "wallacemaxters/timer": "dev-master"
+    }
+   
+}
+
+```
+#inclusão das classes
 ```php
-<?php
 
 include "vendor/autoload.php";
 
@@ -10,7 +22,35 @@ use WallaceMaxters\Timer\Time;
 use WallaceMaxters\Timer\Collection;
 use WallaceMaxters\Timer\Diff;
 
+```
+#Criação da instância
 
+O objeto **WallaceMaxters\Timer\Time** pode ser instanciado com parâmetro ou não
+
+```php
+  list($hours, $minutes, $seconds) = [1, 0, 30];
+  
+  new Time($hours, $minutes, $seconds);
+```
+
+Também os parâmetros podem ser passados depois da instanciação do objeto:
+
+```php
+$time = new Time();
+
+$time->setSeconds(30);
+
+$time->setMinutes(30);
+
+$time->addMinutes(30); // Diferente dos métodos que inciam com "set", ele adiciona valores no já existente
+```
+#Maneira curta para definir o tempo
+```php
+$time->setTime($hours, $minutes, $seconds);
+
+```
+#testando o objeto Time
+```php
 $time = new Time;
 
 $time->setMinutes(70);
