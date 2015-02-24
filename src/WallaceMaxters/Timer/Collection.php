@@ -2,8 +2,9 @@
 
 namespace WallaceMaxters\Timer;
 
-use ArrayAcess
 use IteratorAggregate;
+use ArrayAccess;
+use ArrayIterator;
 
 class Collection implements ArrayAccess, IteratorAggregate
 {
@@ -21,8 +22,12 @@ class Collection implements ArrayAccess, IteratorAggregate
         $this->format = $format;
 
         foreach($times as $key => $time) {
-            
-            $this[$key] = new Time(0, 0, $time);
+
+            if ($time instanceof Time) {
+                $this[$key] = $time;
+            } else {
+                $this[$key] = new Time(0, 0, $time);
+            }
         }
     }
 
@@ -87,5 +92,47 @@ class Collection implements ArrayAccess, IteratorAggregate
 
         return $this;
     }
+
+    /**
+    * Create a new instance of WallaceMaxters\Timer\Time with all
+    *  seconds of items of colection objets summed
+    * @return WallaceMaxters\Timer\Time
+    */
+
+    public function sum()
+    {
+        return new Time(0, 0, array_sum($this->toIntegerList()));
+    }
+
+    /**
+    * Filter all items and create a new instance 
+    */
+
+    public function filter($callback)
+    {
+        return new static(array_filter($this->items, $callback));
+    }
+
+    /**
+    * 
+    */
+    public function clean()
+    {
+        $this->items = [];
+
+        return $this;
+    }
+
+    public function toIntegerList()
+    {
+        $callback = function ($time)
+        {
+            return $time->getSeconds();
+        };
+
+        return array_map($callback, $this->items);
+    }
+
+
 
 }

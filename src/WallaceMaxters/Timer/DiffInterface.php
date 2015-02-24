@@ -1,5 +1,7 @@
 <?php
 
+namespace WallaceMaxters\Timer;
+
 interface DiffInterface
 {
     public function diff(Time $time);

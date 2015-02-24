@@ -5,7 +5,10 @@ namespace WallaceMaxters\Timer;
 class Time
 {
     protected $aliases = [
-        '%h', '%i', '%s'
+        'formated_hours'   => '%h',
+        'formated_minutes' => '%i', // formated minutes
+        'formated_seconds' => '%s', // formated seconds,
+        'total_minutes'    => '%I', // minutes without divisor by 60
     ];
 
     protected $seconds = 0;
@@ -19,7 +22,7 @@ class Time
     {
         $this->setTime($hours, $minutes, $seconds);
         
-        $this->setDiffObject(new Diff));
+        $this->setDiffObject(new Diff);
     }
 
     public function setTime($hours, $minutes, $seconds)
@@ -67,7 +70,6 @@ class Time
         return $this->seconds;
     }
 
-
     public function format($format)
     {
         $hours = floor($this->seconds / 3600);
@@ -76,7 +78,12 @@ class Time
 
         $seconds = floor($this->seconds % 60);
 
-        $elements = array_map([$this, 'zeroPadding'], compact('hours', 'minutes', 'seconds'));
+        $totalMinutes = $hours * 60;
+
+        $elements = array_map(
+            [$this, 'zeroPadding'],
+            compact('hours', 'minutes', 'seconds', 'totalMinutes')
+        );
 
         return str_replace($this->aliases, $elements, $format);
     }
