@@ -1,0 +1,10 @@
+{
+	"name"	   : "wallacemaxters/timer",
+	"description" : "Timer",
+	"required" : {},
+	"autoload" : {
+		"psr-4": {
+            "WallaceMaxters\\": "src/WallaceMaxters/"
+        }
+	}
+}
