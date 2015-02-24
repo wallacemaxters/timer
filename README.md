@@ -74,6 +74,7 @@ $time2 = new Time();
 $time2->addSeconds(0)->addSeconds(-1);
 
 
+
 ```
 
 #O objeto Diff.
@@ -87,6 +88,14 @@ Diff::diff(Time $time);
 $diff = new Diff($time1);
 
 $intervalTime = $diff->diff($time2); 
+
+
+// ou
+
+$newTimeInstance = $time1->diff($time2);
+echo $newTimeInstance->format('%h:%i:%s');
+echo $newTimeInstance->getSeconds();
+
 ```
 
 #O objeto **Collection**
