@@ -57,7 +57,9 @@ $time->setMinutes(70);
 
 
 echo $time, PHP_EOL; // 01:10:00
-
+```
+#Diferença entre dois tempos com o método **Time::diff**
+```
 echo $time->diff(new Time(0, 20))->format('%h:%i:%s'), PHP_EOL; // 00:50:00
 
 
@@ -74,14 +76,21 @@ $time2->addSeconds(0)->addSeconds(-1);
 
 ```
 
-#O objeto Diff
+#O objeto Diff.
+
+Ao chamar o objeto Diff, ele retornará uma nova instância de Time, com os segundos comparados.
+
 ```php
+
+Diff::diff(Time $time);
+
 $diff = new Diff($time1);
 
-$intervalTime = $diff->diff($time2);
+$intervalTime = $diff->diff($time2); 
+```
 
-
-
+#O objeto **Collection**
+```
 $collection = new Collection([50, 60, 70]);
 
 
