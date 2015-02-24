@@ -1,5 +1,5 @@
 
-```html
+```php
 
 include "vendor/autoload.php";
 
