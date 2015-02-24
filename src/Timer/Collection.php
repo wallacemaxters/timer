@@ -8,9 +8,9 @@ use IteratorAggregate;
 class Collection implements ArrayAccess, IteratorAggregate
 {
 
-	protected $items = [];
+    protected $items = [];
 
-	protected $format = null;
+    protected $format = null;
     
     /**
     * @param array $times
@@ -18,7 +18,7 @@ class Collection implements ArrayAccess, IteratorAggregate
     */
     public function __construct(array $times = [], $format = null)
     {
-    	$this->format = $format;
+        $this->format = $format;
 
         foreach($times as $key => $time) {
             
@@ -26,66 +26,66 @@ class Collection implements ArrayAccess, IteratorAggregate
         }
     }
 
-	public function setTime($key, Time $time)
-	{
-		$time->setFormat($this->format);
+    public function setTime($key, Time $time)
+    {
+        $time->setFormat($this->format);
 
-		if ($key === null) {
+        if ($key === null) {
 
-			$this->items[] = $time;
+            $this->items[] = $time;
 
-		} else {
+        } else {
 
-			$this->items[$key] = $time;
+            $this->items[$key] = $time;
 
-		}
+        }
 
-		return $this;
-	}
+        return $this;
+    }
 
-	public function offsetSet($key, $value)
-	{
-		return $this->setTime($key, $value);
-	}
+    public function offsetSet($key, $value)
+    {
+        return $this->setTime($key, $value);
+    }
 
-	public function offsetUnset($key)
-	{
-		unset($this->items[$key]);
-	}
+    public function offsetUnset($key)
+    {
+        unset($this->items[$key]);
+    }
 
-	public function offsetExists($key)
-	{
-		return array_key_exists($key, $this->items);
-	}
+    public function offsetExists($key)
+    {
+        return array_key_exists($key, $this->items);
+    }
 
-	public function offsetGet($key)
-	{
-		if ($this->offsetExists($key)) {
+    public function offsetGet($key)
+    {
+        if ($this->offsetExists($key)) {
 
-			return $this->items[$key];
-		} 
+            return $this->items[$key];
+        } 
 
-		return null;
-	}
+        return null;
+    }
 
-	public function getIterator()
-	{
-		return new ArrayIterator($this->items);
-	}
+    public function getIterator()
+    {
+        return new ArrayIterator($this->items);
+    }
 
-	public function sortAsc()
-	{	
+    public function sortAsc()
+    {    
 
-		asort($this->items);
+        asort($this->items);
 
-		return $this;
-	}
+        return $this;
+    }
 
-	public function sortDesc()
-	{
-		arsort($this->items);
+    public function sortDesc()
+    {
+        arsort($this->items);
 
-		return $this;
-	}
+        return $this;
+    }
 
 }
