@@ -1,7 +1,9 @@
 
+```html
+
 include "vendor/autoload.php";
 
-```html
+
 use WallaceMaxters\Timer\Time;
 use WallaceMaxters\Timer\Collection;
 use WallaceMaxters\Timer\Diff;
