@@ -1,4 +1,5 @@
 
+#Uso Básico
 ```php
 <?php
 
@@ -15,13 +16,12 @@ $time = new Time;
 $time->setMinutes(70);
 
 
-echo $time, PHP_EOL;
+echo $time, PHP_EOL; // 01:10:00
+
+echo $time->diff(new Time(0, 20))->format('%h:%i:%s'), PHP_EOL; // 00:50:00
 
 
-echo $time->diff(new Time(0, 20))->format('%h:%i:%s'), PHP_EOL;
-
-
-echo $time->setFormat('%h horas %i minutos e %s segundos'), PHP_EOL;
+echo $time->setFormat('%h horas %i minutos e %s segundos'), PHP_EOL; // 01 horas 10 minutos e 00 segundos
 
 $time1 = new Time();
 
@@ -31,6 +31,11 @@ $time2 = new Time();
 
 $time2->addSeconds(0)->addSeconds(-1);
 
+
+```
+
+#O objeto Diff
+```php
 $diff = new Diff($time1);
 
 $intervalTime = $diff->diff($time2);
