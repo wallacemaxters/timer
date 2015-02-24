@@ -1,5 +1,6 @@
 
 ```php
+<?php
 
 include "vendor/autoload.php";
 
@@ -18,6 +19,9 @@ echo $time, PHP_EOL;
 
 
 echo $time->diff(new Time(0, 20))->format('%h:%i:%s'), PHP_EOL;
+
+
+echo $time->setFormat('%h horas %i minutos e %s segundos'), PHP_EOL;
 
 $time1 = new Time();
 
