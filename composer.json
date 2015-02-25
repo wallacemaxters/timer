@@ -5,7 +5,7 @@
 	"required" : {},
 	"autoload" : {
 		"psr-4": {
-            "WallaceMaxters\\": "src/WallaceMaxters/"
-        }
+                     "WallaceMaxters\\": "src/WallaceMaxters/"
+             }
 	}
 }
