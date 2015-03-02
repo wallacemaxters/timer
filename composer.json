@@ -2,7 +2,9 @@
 	"name"	   : "wallacemaxters/timer",
 	"version"  : "1.0.0",
 	"description" : "Timer",
-	"required" : {},
+	"required" : {
+		"php" : ">=5.4.0"
+	},
 	"autoload" : {
 		"psr-4": {
                      "WallaceMaxters\\": "src/WallaceMaxters/"
