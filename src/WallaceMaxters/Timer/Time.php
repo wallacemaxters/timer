@@ -4,12 +4,13 @@ namespace WallaceMaxters\Timer;
 
 class Time
 {
-    protected $aliases = [
-        'formated_hours'   => '%h',
-        'formated_minutes' => '%i', // formated minutes
-        'formated_seconds' => '%s', // formated seconds,
-        'total_minutes'    => '%I', // minutes without divisor by 60
-    ];
+    const HOUR_FORMAT = '%h';
+
+    const MINUTE_FORMAT = '%i';
+
+    const SECOND_FORMAT = '%s';
+
+    const TOTAL_MINUTES_FORMAT = '%I';
 
     protected $seconds = 0;
 
@@ -85,7 +86,14 @@ class Time
             compact('hours', 'minutes', 'seconds', 'totalMinutes')
         );
 
-        return str_replace($this->aliases, $elements, $format);
+        $aliases = [
+            self::HOUR_FORMAT,
+            self::MINUTE_FORMAT, 
+            self::SECOND_FORMAT, 
+            self::TOTAL_MINUTES_FORMAT,
+        ];
+
+        return str_replace($aliases, $elements, $format);
     }
 
 
@@ -116,9 +124,22 @@ class Time
         return $this->diff->diff($time);
     }
 
-
     protected function zeroPadding($value)
     {
         return sprintf('%02s', $value);
+    }
+
+    /**
+    * @access public
+    * @static
+    * @uses func_get_args used by dinamic arguments call
+    * @uses call_user_func_array used by call \WallaceMaxters\Timer\Parser::parseFormat
+    * @return \WallaceMaxters\Timer\Time
+    */
+    public static function createFromFormat()
+    {
+        $parser = call_user_func_array([new Parser, 'parseFormat'], func_get_args());
+
+        return $parser->getTime();
     }
 }
