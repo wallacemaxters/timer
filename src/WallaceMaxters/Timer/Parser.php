@@ -6,13 +6,25 @@ use InvalidArgumentException;
 
 class Parser
 {
+
+    /**
+    * @var \WallaceMaxters\Timer\Time
+    */
     protected $time;
 
-    protected $formatReplaces = [
+    /**
+    * @var array
+    */
+    protected $replacementFormats = [
         Time::HOUR_FORMAT   => '\d{1,2}',
         Time::MINUTE_FORMAT => '\d{1,2}',
         Time::SECOND_FORMAT => '\d{1,2}',
     ];
+
+    /**
+    * Object Constructor
+    * @return void
+    */
 
     public function __construct()
     {
@@ -38,11 +50,11 @@ class Parser
 
     public function parseFormat($format, $value, $separator = ':')
     {
-        $regexPart = strtr(preg_quote($format), $this->formatReplaces);
+        $regexPart = strtr(preg_quote($format), $this->replacementFormats);
 
         if (! preg_match("/^{$regexPart}$/", $value)) {
 
-            throw new InvalidArgumentException('Non-compatible format in comparsion with value');
+            throw new InvalidArgumentException('Non-compatible format in comparison with value');
         }
 
         $values = array_map('intval', explode($separator, $value));
@@ -60,7 +72,6 @@ class Parser
 
             $this->time->addMinutes($combined[Time::MINUTE_FORMAT]);
         }
-
 
         if (isset($combined[Time::SECOND_FORMAT])) {
 

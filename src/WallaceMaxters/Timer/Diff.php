@@ -4,39 +4,43 @@ namespace WallaceMaxters\Timer;
 
 class Diff implements DiffInterface
 {
-	protected $time;
+    /**
+    * @var \WallaceMaxters\Timer\Time
+    */
+    protected $time;
 
-	public function __construct($time = null)
-	{
-		if ($time !== null) {
+    public function __construct($time = null)
+    {
+        if ($time !== null) {
 
-			$this->setTime($time);
-		}
-	}
-
-
-	/**
-	* @param WallaceMaxters\Timer\Time $time = Time for comparision
-	* @return WallaceMaxters\Timer\Time new object with secondos of comparision result
-	*/
-
-	public function diff(Time $time)
-	{
-		$comparison = $this->time->getSeconds() - $time->getSeconds();
+            $this->setTime($time);
+        }
+    }
 
 
-		// normalize number for a positive value
+    /**
+    * @param WallaceMaxters\Timer\Time $time = Time for comparision
+    * @return WallaceMaxters\Timer\Time new object with seconds of comparision result
+    */
 
-		if ($comparison < 0) {
-			$comparison *= -1;
-		}
+    public function diff(Time $time)
+    {
+        $comparison = $this->time->getSeconds() - $time->getSeconds();
 
-		return (new Time())->setSeconds($comparison);
-	}
+        // normalize number for a positive value
 
-	/**
-	* Determine first object of WallaceMaxters\Timer\Time for comparision
-	*/
+        if ($comparison < 0) {
+            $comparison *= -1;
+        }
+
+        return (new Time())->setSeconds($comparison);
+    }
+
+    /**
+    * Determine first object of WallaceMaxters\Timer\Time for comparision
+    * @param \WallaceMaxters\Timer\Time $time
+    * @return \WallaceMaxters\Timer\Diff
+    */
     
     public function setTime(Time $time)
     {

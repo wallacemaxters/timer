@@ -83,7 +83,7 @@ class Time
 
         $elements = array_map(
             [$this, 'zeroPadding'],
-            compact('hours', 'minutes', 'seconds', 'totalMinutes')
+            [$hours, $minutes, $seconds, $totalMinutes]
         );
 
         $aliases = [
@@ -103,7 +103,6 @@ class Time
 
         return $this;
     }
-
 
     public function __toString()
     {

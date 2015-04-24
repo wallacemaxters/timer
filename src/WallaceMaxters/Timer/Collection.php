@@ -80,7 +80,6 @@ class Collection implements ArrayAccess, IteratorAggregate
 
     public function sortAsc()
     {    
-
         asort($this->items);
 
         return $this;
@@ -113,10 +112,7 @@ class Collection implements ArrayAccess, IteratorAggregate
         return new static(array_filter($this->items, $callback));
     }
 
-    /**
-    * 
-    */
-    public function clean()
+    public function clear()
     {
         $this->items = [];
 
@@ -132,7 +128,4 @@ class Collection implements ArrayAccess, IteratorAggregate
 
         return array_map($callback, $this->items);
     }
-
-
-
 }
