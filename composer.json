@@ -1,6 +1,6 @@
 {
 	"name"	   : "wallacemaxters/timer",
-	"version"  : "1.0.0",
+	"version"  : "1.1.0",
 	"description" : "Timer",
 	"require" : {
 		"php" : ">=5.4.0"
