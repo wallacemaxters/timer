@@ -5,7 +5,8 @@ namespace WallaceMaxters\Timer;
 use InvalidArgumentException;
 
 /**
-* @author Wallace de Souza Vizerra <wallacemaxters@gmail.com>
+* @author Wallace de Souza Vizerra
+* @see wallacemaxters@gmail.com
 */
 class Parser
 {
