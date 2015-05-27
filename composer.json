@@ -9,5 +9,6 @@
 		"psr-4": {
                      "WallaceMaxters\\": "src/WallaceMaxters/"
              }
-	}
+	},
+	"minimum-stability": "dev"
 }
