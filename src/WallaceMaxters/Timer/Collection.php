@@ -31,6 +31,18 @@ class Collection implements ArrayAccess, IteratorAggregate
         }
     }
 
+    /**
+    * Easy way for chainability
+    * @static
+    * @param array $times
+    * @param string $format = Default format for all items of collection
+    * @return static
+    */
+    public static function create(array $times = [], $format = null)
+    {
+        return new static($times, $format);
+    }
+
     public function setTime($key, Time $time)
     {
         $time->setFormat($this->format);

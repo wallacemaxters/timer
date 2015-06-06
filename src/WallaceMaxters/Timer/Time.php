@@ -26,6 +26,20 @@ class Time
         $this->setDiffObject(new Diff);
     }
 
+    /**
+    * Easy way for chainability
+    * @static
+    * @param int $hours
+    * @param int $minutes
+    * @param int $seconds
+    * @return static
+    */
+
+    public static function create($hours = 0, $minutes = 0, $seconds = 0)
+    {
+        return new static($hours, $minutes, $seconds);
+    }
+
     public function setTime($hours, $minutes, $seconds)
     {
 
@@ -129,7 +143,6 @@ class Time
     }
 
     /**
-    * @access public
     * @static
     * @uses func_get_args used by dinamic arguments call
     * @uses call_user_func_array used by call \WallaceMaxters\Timer\Parser::parseFormat
@@ -141,4 +154,6 @@ class Time
 
         return $parser->getTime();
     }
+
+
 }
