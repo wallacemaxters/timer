@@ -30,9 +30,9 @@ class Parser
     * @return void
     */
 
-    public function __construct()
+    public function __construct(Time $time = null)
     {
-        $this->time = new Time;
+        $this->time = $time ?: new Time;
     }
 
     /**
