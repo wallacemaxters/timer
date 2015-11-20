@@ -2,6 +2,13 @@
 
 namespace WallaceMaxters\Timer;
 
+use UnexpectedValueException;
+
+/**
+ * @author Wallace de Souza Vizerra <wallacemaxters@gmail.com>
+ * 
+ * Time class for work with timer
+ * */
 class Time
 {
     const HOUR_FORMAT = '%h';
@@ -12,18 +19,29 @@ class Time
 
     const TOTAL_MINUTES_FORMAT = '%I';
 
+    /**
+     * @var int
+     * */
+
     protected $seconds = 0;
 
+    /**
+     * @var string
+     * The output format
+     * */
     protected $format = '%h:%i:%s';
     
+    /**
+     * @var WallaceMaxters\Timer\Diff
+     * */
     protected $diff;
+
+    protected static $negativeException = true;
 
     
     public function __construct($hours = 0, $minutes = 0, $seconds = 0)
     {
         $this->setTime($hours, $minutes, $seconds);
-        
-        $this->setDiffObject(new Diff);
     }
 
     /**
@@ -46,6 +64,8 @@ class Time
         $this->seconds = intval($hours) * 3600;
         $this->seconds += intval($minutes) * 60;
         $this->seconds += intval($seconds);
+
+        $this->negativeHandler();
 
         return $this;
     }
@@ -95,10 +115,11 @@ class Time
 
         $totalMinutes = $hours * 60;
 
-        $elements = array_map(
-            [$this, 'zeroPadding'],
-            [$hours, $minutes, $seconds, $totalMinutes]
-        );
+        $elements = array_map(function ($value)
+        {   
+            return sprintf('%02s', $value);
+
+        },[$hours, $minutes, $seconds, $totalMinutes]);
 
         $aliases = [
             self::HOUR_FORMAT,
@@ -123,23 +144,34 @@ class Time
         return $this->format($this->format);
     }
     
+    /**
+     * 
+     * @deprecated since 1.2 . Use setDiff instead of
+     * */
+
     public function setDiffObject(DiffInterface $diff)
     {
-        $this->diff = $diff;
-        
-        $this->diff->setTime($this);
-        
+        return $this->setDiff($diff);
+    }
+
+    /**
+     * @param \WallaceMaxters\Timer\DiffInterface $diff
+     * */
+    public function setDiff(DiffInterface $diff)
+    {
+        $this->diff = $diff($this);
+
         return $this;
+    }
+
+    public function getDiff()
+    {
+        return $this->diff ?: $this->diff = new Diff($this);
     }
     
     public function diff(Time $time)
     {
-        return $this->diff->diff($time);
-    }
-
-    protected function zeroPadding($value)
-    {
-        return sprintf('%02s', $value);
+        return $this->getDiff()->diff($time);
     }
 
     /**
@@ -155,5 +187,27 @@ class Time
         return $parser->getTime();
     }
 
+    public function negativeHandler()
+    {
 
+        if ($this->seconds < 0) {
+
+            $this->setTime(0, 0, 0);
+
+            if (static::$negativeException == true) {
+
+                throw new UnexpectedValueException('Invalid time defined. Negative time is not accepted');
+            }
+        }
+    }
+
+    public static function enableExceptionOnNegative()
+    {
+        static::$negativeException = true;
+    }
+
+    public static function disableExceptionOnNegative()
+    {
+        static::$negativeException = false;
+    }
 }
