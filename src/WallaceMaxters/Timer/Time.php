@@ -187,7 +187,12 @@ class Time
         return $parser->getTime();
     }
 
-    public function negativeHandler()
+    /**
+     * Handles the negative values of seconds
+     * If exceptions enable, throws \Unexceptedvalueexception
+     * @return void
+     * */
+    protected function negativeHandler()
     {
 
         if ($this->seconds < 0) {

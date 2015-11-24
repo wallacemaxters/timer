@@ -5,8 +5,9 @@ namespace WallaceMaxters\Timer;
 use IteratorAggregate;
 use ArrayAccess;
 use ArrayIterator;
+use Countable;
 
-class Collection implements ArrayAccess, IteratorAggregate
+class Collection implements Countable, IteratorAggregate
 {
 
     protected $items = [];
@@ -21,14 +22,10 @@ class Collection implements ArrayAccess, IteratorAggregate
     {
         $this->format = $format;
 
-        foreach($times as $key => $time) {
+        $this->items = new \SplObjectStorage;
 
-            if ($time instanceof Time) {
-                $this[$key] = $time;
-            } else {
-                $this[$key] = new Time(0, 0, $time);
-            }
-        }
+        $this->fromArray($times);
+        
     }
 
     /**
@@ -43,51 +40,34 @@ class Collection implements ArrayAccess, IteratorAggregate
         return new static($times, $format);
     }
 
-    public function setTime($key, Time $time)
+    public function fromArray(array $times)
     {
-        $time->setFormat($this->format);
+        foreach ($times as $key => $time) {
 
-        if ($key === null) {
+            if (! $time instanceof Time) {
 
-            $this->items[] = $time;
+                $time = new Time(0, 0, $time);
 
-        } else {
+            }
 
-            $this->items[$key] = $time;
+            $this->attach($time);
+        }
+        return $this;
+    }
 
+    public function merge(self $collection)
+    {
+        foreach ($collection as $time) {
+
+            $this->attach($time);
         }
 
         return $this;
     }
 
-    public function offsetSet($key, $value)
-    {
-        return $this->setTime($key, $value);
-    }
-
-    public function offsetUnset($key)
-    {
-        unset($this->items[$key]);
-    }
-
-    public function offsetExists($key)
-    {
-        return array_key_exists($key, $this->items);
-    }
-
-    public function offsetGet($key)
-    {
-        if ($this->offsetExists($key)) {
-
-            return $this->items[$key];
-        } 
-
-        return null;
-    }
-
     public function getIterator()
     {
-        return new ArrayIterator($this->items);
+        return clone $this->items;
     }
 
     public function sortAsc()
@@ -95,6 +75,25 @@ class Collection implements ArrayAccess, IteratorAggregate
         asort($this->items);
 
         return $this;
+    }
+
+    public function attach(Time $time)
+    {
+        $this->items->attach($time, $time->getSeconds());
+
+        return $this;
+    }
+
+    public function detach(Time $time)
+    {
+        $this->items->detach($time);
+
+        return $this;
+    }
+
+    public function contains(Time $time)
+    {
+        return $this->items->contains($time);
     }
 
     public function sortDesc()
@@ -112,32 +111,106 @@ class Collection implements ArrayAccess, IteratorAggregate
 
     public function sum()
     {
-        return new Time(0, 0, array_sum($this->toIntegerList()));
+        return new Time(0, 0, array_sum($this->toArrayOfSeconds()));
     }
 
     /**
     * Filter all items and create a new instance 
     */
-
-    public function filter($callback)
+    public function filter(callable $callback, $true = true)
     {
-        return new static(array_filter($this->items, $callback));
-    }
+        foreach ($this->items as $time) {
 
-    public function clear()
-    {
-        $this->items = [];
+            if ($callback($time) != $true) {
+
+                $this->detach($time);
+            }
+        }
 
         return $this;
     }
 
+    /**
+     * Return element where is not rejected by callback
+     * @param callable $callback
+     * */
+    public function reject(callable $callback)
+    {
+        return $this->filter($callback, false);
+    }
+
+    /**
+     * 
+     * @deprecated since 1.2 use "toArrayOfSeconds"
+     * */
     public function toIntegerList()
     {
-        $callback = function ($time)
-        {
-            return $time->getSeconds();
-        };
-
-        return array_map($callback, $this->items);
+        return $this->toArrayOfSeconds();
     }
+
+    /**
+     * @return array
+     * */
+    public function toArrayOfSeconds()
+    {
+        return array_map(function ($time) {
+
+            return $time->getSeconds();
+
+        }, $this->toArray());
+    }
+
+    public function toArray()
+    {
+        return iterator_to_array($this->items);
+    }
+
+    public function clear()
+    {
+        $this->items->removeAll($this->items);
+
+        return $this;
+    }
+
+    public function count()
+    {
+        return $this->items->count();
+    }
+    
+    /**
+     * Search time object and return the first 
+     * @param callable $callback
+     * @return \WallaceMaxters\Timer\Time | null
+     * */
+    public function first(callable $callback)
+    {
+        foreach ($this->items as $time) {
+
+            if ($callback($time)) return $time;
+        }
+    }
+
+    public function isEmpty()
+    {
+        return $this->count() == 0;
+    }
+
+    public function max()
+    {
+        return new Time(0, 0, max($this->toArrayOfSeconds()));
+    }
+
+    public function min()
+    {
+        return new Time(0, 0, min($this->toArrayOfSeconds()));
+    }
+
+    public function avg()
+    {
+        $avg = floor($this->sum()->getSeconds() / $this->count());
+
+        return new Time(0, 0, $avg);
+    }
+
+    
 }
