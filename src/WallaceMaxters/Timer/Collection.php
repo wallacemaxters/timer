@@ -6,7 +6,9 @@ use IteratorAggregate;
 use ArrayAccess;
 use ArrayIterator;
 use Countable;
-
+/**
+ * @author Wallace de Souza Vizerra <wallacemaxters@gmail.com>
+ * */
 class Collection implements Countable, IteratorAggregate
 {
 
