@@ -31,4 +31,4 @@ var_dump($collection->first(function ($time)
 
 
 
-var_dump($collection->min(), $collection->max(), $collection->avg(false));
+var_dump($collection->min(), $collection->max(), $collection->avg());

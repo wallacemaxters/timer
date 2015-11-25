@@ -58,56 +58,100 @@ class Time
         return new static($hours, $minutes, $seconds);
     }
 
+    /**
+     * @param int $hours 
+     * @param int $minutes
+     * @param int $seconds 
+     * @return $this
+     * */
     public function setTime($hours, $minutes, $seconds)
     {
 
-        $this->seconds = intval($hours) * 3600;
-        $this->seconds += intval($minutes) * 60;
-        $this->seconds += intval($seconds);
+        $this->seconds  = ((int) $hours) * 3600;
+        $this->seconds += ((int) $minutes) * 60;
+        $this->seconds += (int) $seconds;
 
         $this->negativeHandler();
 
         return $this;
     }
 
+    /**
+     * @param int $seconds
+     * */
     public function setSeconds($seconds)
     {
         return $this->setTime(0, 0, $seconds);
     }
 
+    /**
+     * @param minutes $minutes
+     * */
     public function setMinutes($minutes)
     {
         return $this->setTime(0, $minutes, 0);
     }
 
+    /**
+     * @param int $hours
+     * */
     public function setHours($hours)
     {
         return $this->setTime($hours, 0, 0);
     }
 
+    /**
+     * Add seconds
+     * @param $seconds
+     * */
     public function addSeconds($seconds)
     {
-        return $this->setTime(0, 0, $this->seconds + intval($seconds));
+        return $this->setTime(0, 0, $this->seconds + (int)$seconds);
     }
 
+    /**
+     * Add minutes
+     * @param int $minutes
+     * */
     public function addMinutes($minutes)
     {
-        return $this->setTime(0, intval($minutes), $this->seconds);
+        return $this->setTime(0, (int) $minutes, $this->seconds);
     }
 
+    /**
+     * Add hours
+     * @param int $hours
+     * */
     public function addHours($hours)
     {
-        return $this->setTime(intval($hours), 0, $this->seconds);
+        return $this->setTime((int) $hours, 0, $this->seconds);
     }
     
+    /**
+     * Get seconds from total hours defined
+     * @return int
+     * */
     public function getSeconds()
     {
         return $this->seconds;
     }
 
-    public function format($format)
+    /**
+     * Format the output time
+     * <code>
+     *      Time::create(1, 59, 59)->format('%h:%i:%s');
+     *      // "1:59:59"
+     * </code>
+     * @param string $format 
+     * */
+    public function format($format = null)
     {
-        $hours = floor($this->seconds / 3600);
+
+        if (null === $format) {
+            $format = $this->format;
+        }
+
+        $hours =   floor($this->seconds / 3600);
 
         $minutes = floor(($this->seconds - ($hours * 3600)) / 60);
 
@@ -117,7 +161,7 @@ class Time
 
         $elements = array_map(function ($value)
         {   
-            return sprintf('%02s', $value);
+            return sprintf('%02d', $value);
 
         },[$hours, $minutes, $seconds, $totalMinutes]);
 
@@ -131,13 +175,20 @@ class Time
         return str_replace($aliases, $elements, $format);
     }
 
-
+    /**
+     * Define the format used in self::__toString
+     * @param string $format
+     * */
     public function setFormat($format)
     {
         $this->format = (string) $format;
 
         return $this;
     }
+
+    /**
+     * @return string
+     * */
 
     public function __toString()
     {
@@ -169,6 +220,12 @@ class Time
         return $this->diff ?: $this->diff = new Diff($this);
     }
     
+    /**
+     * Get a new instance of WallaceMaxters\Timer\Time of diff with another Time
+     * 
+     * @param Time $time time for comparation
+     * @return \WallaceMaxters\Timer\Time
+     * */
     public function diff(Time $time)
     {
         return $this->getDiff()->diff($time);

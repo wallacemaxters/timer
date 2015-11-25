@@ -72,7 +72,10 @@ class Collection implements Countable, IteratorAggregate
 
     public function sortAsc()
     {    
-        asort($this->items);
+        $this->sort(function ($a, $b)
+        {
+            return $a->getSeconds() - $b->getSeconds();
+        });
 
         return $this;
     }
@@ -96,11 +99,23 @@ class Collection implements Countable, IteratorAggregate
         return $this->items->contains($time);
     }
 
-    public function sortDesc()
+    public function sort(callable $callback)
     {
-        arsort($this->items);
+        $array = $this->toArray();
+
+        usort($array, $callback);
+
+        $this->clear()->fromArray($array);
 
         return $this;
+    }
+
+    public function sortDesc()
+    {
+        return $this->sort(function ($a, $b)
+        {
+            return $b->getSeconds() - $a->getSeconds();
+        });
     }
 
     /**
@@ -137,15 +152,6 @@ class Collection implements Countable, IteratorAggregate
     public function reject(callable $callback)
     {
         return $this->filter($callback, false);
-    }
-
-    /**
-     * 
-     * @deprecated since 1.2 use "toArrayOfSeconds"
-     * */
-    public function toIntegerList()
-    {
-        return $this->toArrayOfSeconds();
     }
 
     /**
