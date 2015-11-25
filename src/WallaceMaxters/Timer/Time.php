@@ -19,6 +19,8 @@ class Time
 
     const TOTAL_MINUTES_FORMAT = '%I';
 
+    const DEFAULT_FORMAT = '%h:%i:%s';
+
     /**
      * @var int
      * */
@@ -29,7 +31,7 @@ class Time
      * @var string
      * The output format
      * */
-    protected $format = '%h:%i:%s';
+    protected $format = self::DEFAULT_FORMAT;
     
     /**
      * @var WallaceMaxters\Timer\Diff

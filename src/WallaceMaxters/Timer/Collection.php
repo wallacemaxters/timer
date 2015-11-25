@@ -10,15 +10,18 @@ use Countable;
 class Collection implements Countable, IteratorAggregate
 {
 
-    protected $items = [];
+    /**
+     * @var \SplObjectStorage
+     * */
+    protected $items;
 
-    protected $format = null;
+    protected $format;
     
     /**
     * @param array $times
     * @param string $format = Default format for all items of collection
     */
-    public function __construct(array $times = [], $format = null)
+    public function __construct(array $times = [], $format = Time::DEFAULT_FORMAT)
     {
         $this->format = $format;
 
@@ -217,6 +220,5 @@ class Collection implements Countable, IteratorAggregate
 
         return new Time(0, 0, $avg);
     }
-
-    
+   
 }
