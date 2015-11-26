@@ -209,14 +209,20 @@ class Time
 
     /**
      * @param \WallaceMaxters\Timer\DiffInterface $diff
+     * @return $this
      * */
     public function setDiff(DiffInterface $diff)
     {
-        $this->diff = $diff($this);
+        $this->diff = $diff;
+
+        $this->diff->setTime($this);
 
         return $this;
     }
 
+    /**
+     * @return WallaceMaxters\Timer\DiffInterface
+     * */
     public function getDiff()
     {
         return $this->diff ?: $this->diff = new Diff($this);
@@ -234,14 +240,19 @@ class Time
     }
 
     /**
+    * Create time from format
     * @static
-    * @uses func_get_args used by dinamic arguments call
-    * @uses call_user_func_array used by call \WallaceMaxters\Timer\Parser::parseFormat
+    * @param string $format = Format from creation
+    * @param string $value = string value of time intended for parse
+    * @param string $separator (optional)
     * @return \WallaceMaxters\Timer\Time
     */
-    public static function createFromFormat()
+    public static function createFromFormat($format, $value, $separator = ':')
     {
-        $parser = call_user_func_array([new Parser, 'parseFormat'], func_get_args());
+
+        $parser = new Parser(new self);
+
+        $parser->parseFormat($format, $value, $separator);
 
         return $parser->getTime();
     }

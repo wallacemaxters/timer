@@ -61,9 +61,15 @@ class Parser
             throw new InvalidArgumentException('Non-compatible format in comparison with value');
         }
 
-        $values = array_map('intval', explode($separator, $value));
+        // Example: %h:%i
 
         $formats = array_map('trim', explode($separator, $format));
+
+        // Example 01:23
+
+        $values = array_map('intval', explode($separator, $value));
+
+        // Returned example: ['%h' => 10, '%i' => 10]
 
         $combined = array_combine($formats, $values);
 
