@@ -64,13 +64,17 @@ echo $time->diff(new Time(0, 20))->format('%h:%i:%s'), PHP_EOL; // 00:50:00
 
 echo $time->setFormat('%h horas %i minutos e %s segundos'), PHP_EOL; // 01 horas 10 minutos e 00 segundos
 
+Time::disableExceptionOnNegative();
+
 $time1 = new Time();
 
 $time1->addSeconds(3600)->addSeconds(24);
 
 $time2 = new Time();
 
-$time2->addSeconds(0)->addSeconds(-1);
+// Cuidado! Se o valor do tempo alcancar negativos, pode ser lançadas exceções
+
+$time2->addSeconds(-10);
 
 
 
