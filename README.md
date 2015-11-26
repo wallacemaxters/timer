@@ -20,7 +20,6 @@ include "vendor/autoload.php";
 
 use WallaceMaxters\Timer\Time;
 use WallaceMaxters\Timer\Collection;
-use WallaceMaxters\Timer\Diff;
 
 ```
 #Criação da instância
@@ -83,18 +82,13 @@ Ao chamar o objeto Diff, ele retornará uma nova instância de Time, com os segu
 
 ```php
 
-Diff::diff(Time $time);
 
-$diff = new Diff($time1);
+$time1 = Time::create(0, 20, 0);
 
-$intervalTime = $diff->diff($time2); 
+$time2 = Time::create(0, 15, 0);
 
-
-// ou
-
-$newTimeInstance = $time1->diff($time2);
-echo $newTimeInstance->format('%h:%i:%s');
-echo $newTimeInstance->getSeconds();
+$diff = $time1->diff($time2);
+echo $diff->format('%h:%i:%s'); // 00:05:00
 
 ```
 
@@ -102,16 +96,20 @@ echo $newTimeInstance->getSeconds();
 ```
 $collection = new Collection([50, 60, 70]);
 
+// OR
+
+$collection = new Collection([
+     Time::create(0,0,50),
+     Time::create(0,0,60)
+]);
+
 
 echo $collection->sum()->getSeconds();
 
 
-$filteredCollection = $collection->filter(function($second){
-	return $second->getSeconds() > 30;
+$collection->filter(function ($second) {
+   return $second->getSeconds() > 30;
 });
 
-
-
-print_r($filteredCollection);
 
 ```
