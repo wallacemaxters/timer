@@ -20,7 +20,7 @@ class Parser
     * @var array
     */
     protected $replacementFormats = [
-        Time::HOUR_FORMAT   => '\d{1,2}',
+        Time::HOUR_FORMAT   => '\d+',
         Time::MINUTE_FORMAT => '\d{1,2}',
         Time::SECOND_FORMAT => '\d{1,2}',
     ];
