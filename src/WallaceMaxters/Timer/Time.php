@@ -175,7 +175,7 @@ class Time
 
         if ($this->isNegative()) {
 
-            return '-' . $format;
+            return '-' . $output;
         }
 
         return $output;
