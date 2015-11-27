@@ -8,7 +8,7 @@ $time = Time::create(1);
 
 while ($time->getSeconds() > 0) {
 
-	$time->addMinutes(-10);
+	$time->addSecond(-1);
 
 	var_dump($time->format('%h:%i:%s'));
 }

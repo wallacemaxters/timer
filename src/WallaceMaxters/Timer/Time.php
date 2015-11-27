@@ -37,9 +37,6 @@ class Time
      * @var WallaceMaxters\Timer\Diff
      * */
     protected $diff;
-
-    protected static $negativeException = true;
-
     
     public function __construct($hours = 0, $minutes = 0, $seconds = 0)
     {
@@ -72,8 +69,6 @@ class Time
         $this->seconds  = ((int) $hours) * 3600;
         $this->seconds += ((int) $minutes) * 60;
         $this->seconds += (int) $seconds;
-
-        $this->negativeHandler();
 
         return $this;
     }
@@ -153,11 +148,13 @@ class Time
             $format = $this->format;
         }
 
-        $hours =   floor($this->seconds / 3600);
+        $absoluteSeconds = abs($this->seconds);
 
-        $minutes = floor(($this->seconds - ($hours * 3600)) / 60);
+        $hours =   floor($absoluteSeconds / 3600);
 
-        $seconds = floor($this->seconds % 60);
+        $minutes = floor(($absoluteSeconds - ($hours * 3600)) / 60);
+
+        $seconds = floor($absoluteSeconds % 60);
 
         $totalMinutes = $hours * 60;
 
@@ -174,7 +171,15 @@ class Time
             self::TOTAL_MINUTES_FORMAT,
         ];
 
-        return str_replace($aliases, $elements, $format);
+        $output = str_replace($aliases, $elements, $format);
+
+        if ($this->isNegative()) {
+
+            return '-' . $format;
+        }
+
+        return $output;
+
     }
 
     /**
@@ -197,16 +202,6 @@ class Time
         return $this->format($this->format);
     }
     
-    /**
-     * 
-     * @deprecated since 1.2 . Use setDiff instead of
-     * */
-
-    public function setDiffObject(DiffInterface $diff)
-    {
-        return $this->setDiff($diff);
-    }
-
     /**
      * @param \WallaceMaxters\Timer\DiffInterface $diff
      * @return $this
@@ -252,37 +247,36 @@ class Time
 
         $parser = new Parser(new self);
 
-        $parser->parseFormat($format, $value, $separator);
+        $parser->fromFormat($format, $value, $separator);
 
         return $parser->getTime();
     }
 
+    public static function createFromString($time)
+    {
+        return new static(0, 0, strtotime($time, 0));
+    }
+
+    public static function createFromCurrentTimestamp()
+    {
+        return new static(0, 0, strtotime('now'));
+    }
+
+    public static function createFromNow()
+    {
+        return static::createFromFormat(
+            '%h:%i:%s',
+            (new \DateTime())->format('H:i:s')
+        );
+    }
+
     /**
-     * Handles the negative values of seconds
-     * If exceptions enable, throws \Unexceptedvalueexception
-     * @return void
+     * @return boolean
      * */
-    protected function negativeHandler()
+
+    public function isNegative()
     {
-
-        if ($this->seconds < 0) {
-
-            $this->setTime(0, 0, 0);
-
-            if (static::$negativeException == true) {
-
-                throw new UnexpectedValueException('Invalid time defined. Negative time is not accepted');
-            }
-        }
+        return $this->seconds < 0;
     }
-
-    public static function enableExceptionOnNegative()
-    {
-        static::$negativeException = true;
-    }
-
-    public static function disableExceptionOnNegative()
-    {
-        static::$negativeException = false;
-    }
+    
 }

@@ -52,7 +52,7 @@ class Parser
     * @throws \InvalidArgumentException
     */
 
-    public function parseFormat($format, $value, $separator = ':')
+    public function fromFormat($format, $value, $separator = ':')
     {
         $regexPart = strtr(preg_quote($format), $this->replacementFormats);
 
@@ -89,6 +89,14 @@ class Parser
         }
 
         return $this;
+    }
+
+    /**
+     * @deprecated use format instead of
+     * */
+    public function parseFormat($format, $value, $separator = ':')
+    {
+        return $this->fromFormat($format, $value, $separator);
     }
 
 }

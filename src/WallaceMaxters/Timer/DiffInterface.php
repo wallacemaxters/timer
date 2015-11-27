@@ -12,6 +12,7 @@ interface DiffInterface
 
     /**
      * @param \WallaceMaxters\Timer\Time $time
+     * s
      * */
     public function setTime(Time $time);
 }
