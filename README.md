@@ -1,5 +1,10 @@
 
-#Uso Básico
+#WallaceMaxters\Timer\Time
+
+Classe para trabalhar com tempo. Você pode trabalhar com tempos semelhantemente aos crônometos, que ultrapassam os limites das 24 horas impostos pelo "tempo do relógio".
+
+Exemplos:
+
 
 O `WallaceMaxters\Timer` pode ser instalado através do composer:
 
@@ -20,7 +25,6 @@ include "vendor/autoload.php";
 
 use WallaceMaxters\Timer\Time;
 use WallaceMaxters\Timer\Collection;
-use WallaceMaxters\Timer\Diff;
 
 ```
 #Criação da instância
@@ -65,13 +69,17 @@ echo $time->diff(new Time(0, 20))->format('%h:%i:%s'), PHP_EOL; // 00:50:00
 
 echo $time->setFormat('%h horas %i minutos e %s segundos'), PHP_EOL; // 01 horas 10 minutos e 00 segundos
 
+Time::disableExceptionOnNegative();
+
 $time1 = new Time();
 
 $time1->addSeconds(3600)->addSeconds(24);
 
 $time2 = new Time();
 
-$time2->addSeconds(0)->addSeconds(-1);
+// Cuidado! Se o valor do tempo alcancar negativos, pode ser lançadas exceções
+
+$time2->addSeconds(-10);
 
 
 
@@ -83,18 +91,13 @@ Ao chamar o objeto Diff, ele retornará uma nova instância de Time, com os segu
 
 ```php
 
-Diff::diff(Time $time);
 
-$diff = new Diff($time1);
+$time1 = Time::create(0, 20, 0);
 
-$intervalTime = $diff->diff($time2); 
+$time2 = Time::create(0, 15, 0);
 
-
-// ou
-
-$newTimeInstance = $time1->diff($time2);
-echo $newTimeInstance->format('%h:%i:%s');
-echo $newTimeInstance->getSeconds();
+$diff = $time1->diff($time2);
+echo $diff->format('%h:%i:%s'); // 00:05:00
 
 ```
 
@@ -102,16 +105,20 @@ echo $newTimeInstance->getSeconds();
 ```
 $collection = new Collection([50, 60, 70]);
 
+// OR
+
+$collection = new Collection([
+     Time::create(0,0,50),
+     Time::create(0,0,60)
+]);
+
 
 echo $collection->sum()->getSeconds();
 
 
-$filteredCollection = $collection->filter(function($second){
-	return $second->getSeconds() > 30;
+$collection->filter(function ($second) {
+   return $second->getSeconds() > 30;
 });
 
-
-
-print_r($filteredCollection);
 
 ```
