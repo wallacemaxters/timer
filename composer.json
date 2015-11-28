@@ -2,6 +2,7 @@
 	"name"	   : "wallacemaxters/timer",
 	"version"  : "1.6.0",
 	"description" : "Timer",
+	"license" : "MIT",
 	"require" : {
 		"php" : ">=5.4.0"
 	},
