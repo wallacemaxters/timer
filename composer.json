@@ -1,6 +1,6 @@
 {
 	"name"	   : "wallacemaxters/timer",
-	"version"  : "1.6",
+	"version"  : "1.6.0",
 	"description" : "Timer",
 	"license" : "MIT",
 	"require" : {
