@@ -15,9 +15,9 @@ class Collection implements Countable, IteratorAggregate
 {
 
     /**
-     * @var \SplObjectStorage
+     * @var array
      * */
-    protected $items;
+    protected $items = [];
 
     /**
      * @var string
@@ -33,8 +33,6 @@ class Collection implements Countable, IteratorAggregate
     public function __construct(array $times = [], $format = Time::DEFAULT_FORMAT)
     {
         $this->format = $format;
-
-        $this->items = new \SplObjectStorage;
 
         $this->mergeArray($times);
         
@@ -58,7 +56,7 @@ class Collection implements Countable, IteratorAggregate
      * */
     public function fromArray(array $times)
     {
-        return $this->mergeArray(array $times);
+        return $this->mergeArray( $times);
     }
 
     /**
@@ -143,7 +141,7 @@ class Collection implements Countable, IteratorAggregate
 
     public function attach(Time $time)
     {
-        $this->items->attach($time, $time->getSeconds());
+        $this->items[] = $time;
 
         return $this;
     }
@@ -155,7 +153,12 @@ class Collection implements Countable, IteratorAggregate
      * */
     public function detach(Time $time)
     {
-        $this->items->detach($time);
+        $key = array_search($time, $this->items, true);
+
+        if ($key !== false) {
+
+            unset($this->items[$key]);
+        }
 
         return $this;
     }
@@ -167,7 +170,7 @@ class Collection implements Countable, IteratorAggregate
 
     public function contains(Time $time)
     {
-        return $this->items->contains($time);
+        return array_search($time, $this->items, true) !== false;
     }
 
     /**
@@ -177,11 +180,7 @@ class Collection implements Countable, IteratorAggregate
      * */
     public function sort(callable $callback)
     {
-        $array = $this->toArray();
-
-        usort($array, $callback);
-
-        $this->clear()->fromArray($array);
+        usort($this->items, $callback);
 
         return $this;
     }
@@ -257,7 +256,7 @@ class Collection implements Countable, IteratorAggregate
      * */
     public function toArray()
     {
-        return iterator_to_array($this->items);
+        return $this->items;
     }
 
     /**
@@ -266,7 +265,7 @@ class Collection implements Countable, IteratorAggregate
      * */
     public function clear()
     {
-        $this->items->removeAll($this->items);
+        $this->items = [];
 
         return $this;
     }
@@ -277,7 +276,7 @@ class Collection implements Countable, IteratorAggregate
      * */
     public function count()
     {
-        return $this->items->count();
+        return count($this->items);
     }
     
     /**
@@ -285,12 +284,37 @@ class Collection implements Countable, IteratorAggregate
      * @param callable $callback
      * @return \WallaceMaxters\Timer\Time | null
      * */
-    public function first(callable $callback)
+    public function first(callable $callback = null)
     {
-        foreach ($this->items as $time) {
+        if (null === $callback) {
 
-            if ($callback($time)) return $time;
+            return reset($this->items);
         }
+
+        foreach ($this->items as $key => $time) {
+
+            if ($callback($time, $key)) return $time;
+        }
+    }
+
+    /**
+     * Search time object and return the last 
+     * @param callable $callback
+     * @return \WallaceMaxters\Timer\Time | null
+     * */
+
+    public function last(callable $callback = null)
+    {
+        if (null === $callback) {
+
+            return end($this->items);
+        }
+
+        foreach (array_reverse($this->items) as $key => $time) {
+
+            if ($callback($time, $key)) return $time;
+        }
+
     }
 
     /**
@@ -299,7 +323,7 @@ class Collection implements Countable, IteratorAggregate
      * */
     public function isEmpty()
     {
-        return $this->count() == 0;
+        return empty($this->items);
     }
 
     /**
@@ -321,17 +345,6 @@ class Collection implements Countable, IteratorAggregate
     }
 
     /**
-     * @deprecated since 1.5
-     * */
-
-    public function avg()
-    {
-        trigger_error(sprintf('Method %s is deprectated. Use Collection::average instead of', __METHOD__));
-
-        return $this->average();
-    }
-
-    /**
      * Returns the averaged time of the collection
      * @return Time;
      * */
@@ -339,7 +352,7 @@ class Collection implements Countable, IteratorAggregate
     {
         $average = floor($this->sum()->getSeconds() / $this->count());
 
-        return new Time(0, 0, $avg);
+        return new Time(0, 0, $average);
     }
    
 }
