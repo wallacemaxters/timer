@@ -1,4 +1,3 @@
-
 #WallaceMaxters\Timer\Time
 
 Classe para trabalhar com tempo. Você pode trabalhar com tempos semelhantemente aos crônometos, que ultrapassam os limites das 24 horas impostos pelo "tempo do relógio".
