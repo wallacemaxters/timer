@@ -2,6 +2,7 @@
     "name"     : "wallacemaxters/timer",
     "description" : "Timer is a library for work with times, specially greather than 24 hours",
     "license" : "MIT",
+    "version" : "1.0.6",
     "require" : {
         "php" : ">=5.4.0"
     },
