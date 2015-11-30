@@ -2,6 +2,10 @@
 
 namespace WallaceMaxters\Timer;
 
+/**
+ * @author Wallace de Souza Vizerra <wallacemaxters@gmail.com>
+*/
+
 class Diff implements DiffInterface
 {
     /**
