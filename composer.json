@@ -11,5 +11,5 @@
             "WallaceMaxters\\": "src/WallaceMaxters/"
         }
     },
-    "minimum-stability" : "stable",
+    "minimum-stability" : "stable"
 }
