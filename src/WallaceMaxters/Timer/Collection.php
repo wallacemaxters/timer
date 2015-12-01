@@ -346,7 +346,7 @@ class Collection implements Countable, IteratorAggregate
 
     /**
      * Returns the averaged time of the collection
-     * @return Time;
+     * @return Time
      * */
     public function average()
     {
