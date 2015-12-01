@@ -132,6 +132,16 @@ class Collection implements Countable, IteratorAggregate
         return $this;
     }
 
+
+    /**
+    * Add time from seconds in collection
+    * @param int $seconds
+    */
+    public function push($seconds)
+    {
+        return $this->attach(new Time(0, 0, (int)$seconds));
+    }
+
     /**
      * Attaches a time object to collection 
      * 
