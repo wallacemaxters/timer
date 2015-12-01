@@ -2,8 +2,6 @@
 
 namespace WallaceMaxters\Timer;
 
-use UnexpectedValueException;
-
 /**
  * @author Wallace de Souza Vizerra <wallacemaxters@gmail.com>
  * 
@@ -252,21 +250,37 @@ class Time
         return $parser->getTime();
     }
 
+    /**
+    * @param string $time
+    * @return \WallaceMaxters\Timer\Time
+    */
     public static function createFromString($time)
     {
         return new static(0, 0, strtotime($time, 0));
     }
 
+    /**
+    * Create full hours from current timestamp
+    * @static
+    * @return \WallaceMaxters\Timer\Time
+    */
     public static function createFromCurrentTimestamp()
     {
         return new static(0, 0, strtotime('now'));
     }
 
-    public static function createFromNow()
+    /**
+    * Create the time from now time only
+    * @static
+    * @param $timezone null|\DateTimeZone
+    * @return \WallaceMaxters\Timer\Time
+    */
+
+    public static function createFromNow(\DateTimeZone $timezone = null)
     {
         return static::createFromFormat(
             '%h:%i:%s',
-            (new \DateTime())->format('H:i:s')
+            (new \DateTime('now', $timezone))->format('H:i:s')
         );
     }
 
