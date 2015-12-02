@@ -6,7 +6,7 @@ use Illuminate\Support\ServiceProvider;
 
 use WallaceMaxters\Timer\Time;
 
-class FooServiceProvider extends ServiceProvider
+class TimeServiceProvider extends ServiceProvider
 {
 
     public function register()

@@ -121,3 +121,8 @@ $collection->filter(function ($second) {
 
 
 ```
+
+
+#LARAVEL 4
+
+Em breve...
