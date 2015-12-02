@@ -2,29 +2,27 @@
 
 Classe para trabalhar com tempo. Você pode trabalhar com tempos semelhantemente aos crônometos, que ultrapassam os limites das 24 horas impostos pelo "tempo do relógio".
 
-Exemplos:
+A classe `DateTime` não conseguirá atingir o resultado desejado caso precise de um tempo como `28:00:00`. Pois isso será convertido para 4 horas e 1 dia. 
 
+Através da classe `WallaceMaxters\Timer\Time` podemos contornar esse problema.
+
+
+Exemplos:
 
 O `WallaceMaxters\Timer` pode ser instalado através do composer:
 
-```
+```json
 {
     "require": {
-        "wallacemaxters/timer": "dev-master"
+        "wallacemaxters/timer": "1.1.*"
     }
-   
 }
 
 ```
 #inclusão das classes
 ```php
-
-include "vendor/autoload.php";
-
-
 use WallaceMaxters\Timer\Time;
 use WallaceMaxters\Timer\Collection;
-
 ```
 #Criação da instância
 
@@ -64,24 +62,18 @@ echo $time, PHP_EOL; // 01:10:00
 #Diferença entre dois tempos com o método **Time::diff**
 ```
 echo $time->diff(new Time(0, 20))->format('%h:%i:%s'), PHP_EOL; // 00:50:00
+```
 
-
-echo $time->setFormat('%h horas %i minutos e %s segundos'), PHP_EOL; // 01 horas 10 minutos e 00 segundos
-
-Time::disableExceptionOnNegative();
-
+```php 
 $time1 = new Time();
 
 $time1->addSeconds(3600)->addSeconds(24);
 
 $time2 = new Time();
 
-// Cuidado! Se o valor do tempo alcancar negativos, pode ser lançadas exceções
-
 $time2->addSeconds(-10);
 
-
-
+$diff = $time1->diff($time2);
 ```
 
 #O objeto Diff.
@@ -90,17 +82,19 @@ Ao chamar o objeto Diff, ele retornará uma nova instância de Time, com os segu
 
 ```php
 
-
 $time1 = Time::create(0, 20, 0);
 
 $time2 = Time::create(0, 15, 0);
 
 $diff = $time1->diff($time2);
+
 echo $diff->format('%h:%i:%s'); // 00:05:00
 
 ```
 
 #O objeto **Collection**
+Com o objeto `WallaceMaxters\Timer\Collection` é possível adicionar uma lista de `Time` à coleção. Isso torna possível a utilização de filtros, somas e afins.
+
 ```
 $collection = new Collection([50, 60, 70]);
 
@@ -111,18 +105,42 @@ $collection = new Collection([
      Time::create(0,0,60)
 ]);
 
+// Retorna um Time com os resultados somados
 
 echo $collection->sum()->getSeconds();
-
 
 $collection->filter(function ($second) {
    return $second->getSeconds() > 30;
 });
-
-
 ```
-
 
 #LARAVEL 4
 
-Em breve...
+Para utilizar no Framework Laravel, basta instalar a versão `1.1.0 >=` e adicionar os seguintes trechos no arquivo `config/app.php` 
+
+**Facade**
+```php 
+'Time' =>  'WallaceMaxters\Timer\Laravel\TimeFacade',
+```
+
+**ServiceProvider**
+```php
+'WallaceMaxters\Timer\Laravel\TimeServiceProvider',
+```
+
+No Laravel é possível fazer a chamada:
+
+```php
+Time::addSeconds(30)->addSeconds(30)->format('%h:%i');
+```
+
+*Atenção*
+
+O ServiceProvider torna a instância de `WallaceMaxters\Timer\Time` única.
+
+Para contornar isso, você poderá usar o método `Time::create`
+
+```php
+Time::create()->addSeconds(30);
+```
+
