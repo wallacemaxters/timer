@@ -9,5 +9,8 @@
         "psr-4": {
             "WallaceMaxters\\": "src/WallaceMaxters/"
         }
+    },
+    "suggest" : {
+        "illuminate/support": "for use with Laravel Framework"
     }
 }
