@@ -2,12 +2,14 @@
 
 namespace WallaceMaxters\Timer;
 
+use JsonSerializable;
+
 /**
  * @author Wallace de Souza Vizerra <wallacemaxters@gmail.com>
  * 
  * Time class for work with timer
  * */
-class Time
+class Time implements JsonSerializable
 {
     const HOUR_FORMAT = '%h';
 
@@ -291,6 +293,19 @@ class Time
     public function isNegative()
     {
         return $this->seconds < 0;
+    }
+
+    /**
+     * Implementation for \JsonSerializable
+     * @return array
+     * */
+
+    public function jsonSerialize()
+    {
+        return [
+            'formatted' => $this->format(),
+            'seconds'   => $this->getSeconds(),
+        ];
     }
     
 }

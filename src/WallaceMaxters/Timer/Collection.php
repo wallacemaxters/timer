@@ -6,12 +6,13 @@ use IteratorAggregate;
 use ArrayAccess;
 use ArrayIterator;
 use Countable;
+use JsonSerializable;
 
 /**
  * @author Wallace de Souza Vizerra <wallacemaxters@gmail.com>
  * */
 
-class Collection implements Countable, IteratorAggregate
+class Collection implements Countable, IteratorAggregate, JsonSerializable
 {
 
     /**
@@ -51,17 +52,9 @@ class Collection implements Countable, IteratorAggregate
     }
 
     /**
-     * @deprecated since 1.5 use self::mergeArray insteadOf
-     * @todo remover na versão 1.6
-     * */
-    public function fromArray(array $times)
-    {
-        return $this->mergeArray( $times);
-    }
-
-    /**
      * Merges the current collection with array
      * @param array $times
+     * @return  \Wallacemaxters\Timer\Collection
      * */
     public function mergeArray(array $times)
     {
@@ -109,7 +102,7 @@ class Collection implements Countable, IteratorAggregate
 
     /**
      * Get a cloned instance of internal SplObjectStorage
-     * 
+     * @return  Wallacemaxters\Timer\Collection
      * */
 
     public function getIterator()
@@ -363,6 +356,11 @@ class Collection implements Countable, IteratorAggregate
         $average = floor($this->sum()->getSeconds() / $this->count());
 
         return new Time(0, 0, $average);
+    }
+
+    public function jsonSerialize()
+    {
+        return $this->toArray();
     }
    
 }
