@@ -358,9 +358,24 @@ class Collection implements Countable, IteratorAggregate, JsonSerializable
         return new Time(0, 0, $average);
     }
 
+    /**
+     * Implementation of \JsonSerializable
+     * @return array
+     * */
     public function jsonSerialize()
     {
         return $this->toArray();
+    }
+
+    /**
+     * Defines the format used in all items of collection
+     * @return \Wallacemaxters\Timer\Collection
+     * */
+    public function setFormat()
+    {
+        $this->format = (string) $format;
+
+        return $this;
     }
    
 }

@@ -11,7 +11,7 @@ $collection = Collection::create()
 						->mergeArray([10, 50, 700])
 						->push(100);
 
-
+$collection->setFormat()
 
 var_dump(json_encode($collection, JSON_PRETTY_PRINT));
 
