@@ -6,10 +6,10 @@ use WallaceMaxters\Timer\Collection;
 
 
 $collection = Collection::create()
-						->push(50)
-						->push(10)
-						->mergeArray([10, 50, 700])
-						->push(100);
+                        ->push(50)
+                        ->push(10)
+                        ->mergeArray([10, 50, 700])
+                        ->push(100);
 
 $collection->setFormat('%h hora %i minutes e %s segundos');
 
@@ -23,5 +23,5 @@ var_dump(json_encode($collection->sum(), JSON_PRETTY_PRINT));
 
 foreach($collection as $time)
 {
-	var_dump(json_encode($time));
+    var_dump(json_encode($time));
 }
