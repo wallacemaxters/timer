@@ -145,6 +145,8 @@ class Collection implements Countable, IteratorAggregate, JsonSerializable
 
     public function attach(Time $time)
     {
+        $time->setFormat($this->format);
+
         $this->items[] = $time;
 
         return $this;
@@ -376,6 +378,30 @@ class Collection implements Countable, IteratorAggregate, JsonSerializable
         $this->format = (string) $format;
 
         return $this;
+    }
+
+    /**
+     * Walk in all elements of collection 
+     * @param callable $callback 
+     * @return \WallaceMaxters\Timer\Collection
+     **/
+    public function each(callable $callback)
+    {
+        array_walk($this->items, $callable);
+
+        return $this;
+    }
+
+
+    /**
+     * Map the array to return new value type
+     * @param callable $callback
+     * @return mixed
+     * */
+
+    public function map(callable $callback)
+    {
+        return array_map($callback, $this->items);
     }
    
 }

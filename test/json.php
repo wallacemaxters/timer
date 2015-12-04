@@ -11,7 +11,7 @@ $collection = Collection::create()
 						->mergeArray([10, 50, 700])
 						->push(100);
 
-$collection->setFormat()
+$collection->setFormat('%h hora %i minutes e %s segundos');
 
 var_dump(json_encode($collection, JSON_PRETTY_PRINT));
 
