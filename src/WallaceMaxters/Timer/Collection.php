@@ -76,7 +76,7 @@ class Collection implements Countable, IteratorAggregate, JsonSerializable
     /**
      * Clear the collection and fill with new itens
      * @param array $times
-     * @return $this
+     * @return \Wallacemaxters\Timer\Collection
      * */
 
     public function exchangeArray(array $times)
@@ -88,7 +88,7 @@ class Collection implements Countable, IteratorAggregate, JsonSerializable
      * Merge the collection with another collection
      * 
      * @param \WallaceMaxters\Timer\Collection $collection
-     * @return $this
+     * @return \Wallacemaxters\Timer\Collection
      * */
     public function merge(self $collection)
     {
@@ -112,7 +112,7 @@ class Collection implements Countable, IteratorAggregate, JsonSerializable
 
     /**
      * Sorts the collection by ascending direction
-     * @return $this 
+     * @return \Wallacemaxters\Timer\Collection
      * */
 
     public function sortAsc()
@@ -129,6 +129,7 @@ class Collection implements Countable, IteratorAggregate, JsonSerializable
     /**
     * Add time from seconds in collection
     * @param int $seconds
+    * @return  \Wallacemaxters\Timer\Collection
     */
     public function push($seconds)
     {
@@ -139,7 +140,7 @@ class Collection implements Countable, IteratorAggregate, JsonSerializable
      * Attaches a time object to collection 
      * 
      * @param \WallaceMaxters\Timer\Time $time
-     * @return $This
+     * @return  \Wallacemaxters\Timer\Collection
      * */
 
     public function attach(Time $time)
@@ -152,7 +153,7 @@ class Collection implements Countable, IteratorAggregate, JsonSerializable
     /**
      * Detaches a time of collection
      * @param \WallaceMaxters\Timer\Collection $collection
-     * @return $this
+     * @return  \Wallacemaxters\Timer\Collection
      * */
     public function detach(Time $time)
     {
@@ -179,7 +180,7 @@ class Collection implements Countable, IteratorAggregate, JsonSerializable
     /**
      * Sorts the collection by callback
      * @param callable $callback
-     * @return $this
+     * @return \Wallacemaxters\Timer\Collection
      * */
     public function sort(callable $callback)
     {
@@ -190,8 +191,7 @@ class Collection implements Countable, IteratorAggregate, JsonSerializable
 
     /**
      * Sorts a collection by descending order
-     * 
-     * @return $this
+     * @return \Wallacemaxters\Timer\Collection
      * */
     public function sortDesc()
     {
@@ -203,8 +203,8 @@ class Collection implements Countable, IteratorAggregate, JsonSerializable
 
     /**
     * Create a new instance of WallaceMaxters\Timer\Time with all
-    *  seconds of items of colection objets summed
-    * @return WallaceMaxters\Timer\Time
+    * seconds of items of colection objets summed
+    * @return \Wallacemaxters\Timer\Collection
     */
 
     public function sum()
@@ -216,7 +216,7 @@ class Collection implements Countable, IteratorAggregate, JsonSerializable
     * Filter all items by callback. 
     * @param callable $callback
     * @param boolean $true = determine if filtering will be with "true" or "false" returned by callback
-    * @return $this
+    * @return \Wallacemaxters\Timer\Collection
     */
     public function filter(callable $callback, $true = true)
     {
