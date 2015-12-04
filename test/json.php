@@ -13,6 +13,9 @@ $collection = Collection::create()
 
 $collection->setFormat('%h hora %i minutes e %s segundos');
 
+
+echo $collection->getFormat();
+
 var_dump(json_encode($collection, JSON_PRETTY_PRINT));
 
 var_dump(json_encode($collection->sum(), JSON_PRETTY_PRINT));

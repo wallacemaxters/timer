@@ -377,6 +377,11 @@ class Collection implements Countable, IteratorAggregate, JsonSerializable
     {
         $this->format = (string) $format;
 
+        foreach ($this->items as $time) {
+
+            $time->setFormat($format);
+        }
+
         return $this;
     }
 
@@ -402,6 +407,12 @@ class Collection implements Countable, IteratorAggregate, JsonSerializable
     public function map(callable $callback)
     {
         return array_map($callback, $this->items);
+    }
+
+
+    public function getFormat()
+    {
+        return $this->format;
     }
    
 }
