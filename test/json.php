@@ -20,3 +20,8 @@ var_dump(json_encode($collection, JSON_PRETTY_PRINT));
 
 var_dump(json_encode($collection->sum(), JSON_PRETTY_PRINT));
 
+
+foreach($collection as $time)
+{
+	var_dump(json_encode($time));
+}

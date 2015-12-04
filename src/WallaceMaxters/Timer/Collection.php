@@ -2,11 +2,11 @@
 
 namespace WallaceMaxters\Timer;
 
-use IteratorAggregate;
+use Countable;
 use ArrayAccess;
 use ArrayIterator;
-use Countable;
 use JsonSerializable;
+use IteratorAggregate;
 
 /**
  * @author Wallace de Souza Vizerra <wallacemaxters@gmail.com>
@@ -107,7 +107,7 @@ class Collection implements Countable, IteratorAggregate, JsonSerializable
 
     public function getIterator()
     {
-        return clone $this->items;
+        return new ArrayIterator($this->items);
     }
 
     /**
