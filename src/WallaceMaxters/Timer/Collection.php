@@ -371,7 +371,7 @@ class Collection implements Countable, IteratorAggregate, JsonSerializable
      * Defines the format used in all items of collection
      * @return \Wallacemaxters\Timer\Collection
      * */
-    public function setFormat()
+    public function setFormat($format)
     {
         $this->format = (string) $format;
 
