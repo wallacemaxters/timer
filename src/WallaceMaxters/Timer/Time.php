@@ -38,6 +38,13 @@ class Time implements JsonSerializable
      * */
     protected $diff;
     
+
+    /**
+    * The constructor
+    * @param int $hours
+    * @param int $minutes
+    * @param int $seconds
+    */
     public function __construct($hours = 0, $minutes = 0, $seconds = 0)
     {
         $this->setTime($hours, $minutes, $seconds);
