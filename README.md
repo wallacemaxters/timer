@@ -5,6 +5,8 @@
 - [\WallaceMaxters\Timer\Collection](#class-wallacemaxterstimercollection)
 - [\WallaceMaxters\Timer\Time](#class-wallacemaxterstimertime)
 - [\WallaceMaxters\Timer\Parser](#class-wallacemaxterstimerparser)
+
+## For Laravel 4 Implementation
 - [\WallaceMaxters\Timer\Laravel\TimeFacade](#class-wallacemaxterstimerlaraveltimefacade)
 - [\WallaceMaxters\Timer\Laravel\TimeServiceProvider](#class-wallacemaxterstimerlaraveltimeserviceprovider)
 
