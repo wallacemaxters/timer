@@ -6,7 +6,7 @@
 - [\WallaceMaxters\Timer\Time](#class-wallacemaxterstimertime)
 - [\WallaceMaxters\Timer\Parser](#class-wallacemaxterstimerparser)
 
-## For Laravel 4 Implementation
+## For Laravel 4 implemetation
 - [\WallaceMaxters\Timer\Laravel\TimeFacade](#class-wallacemaxterstimerlaraveltimefacade)
 - [\WallaceMaxters\Timer\Laravel\TimeServiceProvider](#class-wallacemaxterstimerlaraveltimeserviceprovider)
 
@@ -73,7 +73,7 @@
 
 | Visibility | Function |
 |:-----------|:---------|
-| public | <strong>__construct(</strong><em>mixed</em> <strong>$hours</strong>, <em>mixed</em> <strong>$minutes</strong>, <em>mixed</em> <strong>$seconds</strong>)</strong> : <em>void</em> |
+| public | <strong>__construct(</strong><em>int</em> <strong>$hours</strong>, <em>int</em> <strong>$minutes</strong>, <em>int</em> <strong>$seconds</strong>)</strong> : <em>void</em><br /><em>The constructor</em> |
 | public | <strong>__toString()</strong> : <em>string</em> |
 | public | <strong>addHours(</strong><em>int</em> <strong>$hours</strong>)</strong> : <em>void</em><br /><em>Add hours</em> |
 | public | <strong>addMinutes(</strong><em>int</em> <strong>$minutes</strong>)</strong> : <em>void</em><br /><em>Add minutes</em> |
