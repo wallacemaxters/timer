@@ -1,146 +1,126 @@
-#WallaceMaxters\Timer\Time
+## Table of contents
 
-Classe para trabalhar com tempo. Você pode trabalhar com tempos semelhantemente aos crônometos, que ultrapassam os limites das 24 horas impostos pelo "tempo do relógio".
+- [\WallaceMaxters\Timer\DiffInterface (interface)](#interface-wallacemaxterstimerdiffinterface)
+- [\WallaceMaxters\Timer\Diff](#class-wallacemaxterstimerdiff)
+- [\WallaceMaxters\Timer\Collection](#class-wallacemaxterstimercollection)
+- [\WallaceMaxters\Timer\Time](#class-wallacemaxterstimertime)
+- [\WallaceMaxters\Timer\Parser](#class-wallacemaxterstimerparser)
+- [\WallaceMaxters\Timer\Laravel\TimeFacade](#class-wallacemaxterstimerlaraveltimefacade)
+- [\WallaceMaxters\Timer\Laravel\TimeServiceProvider](#class-wallacemaxterstimerlaraveltimeserviceprovider)
 
-A classe `DateTime` não conseguirá atingir o resultado desejado caso precise de um tempo como `28:00:00`. Pois isso será convertido para 4 horas e 1 dia. 
+<hr /> 
+### Interface: \WallaceMaxters\Timer\DiffInterface
 
-Através da classe `WallaceMaxters\Timer\Time` podemos contornar esse problema.
+| Visibility | Function |
+|:-----------|:---------|
+| public | <strong>diff(</strong><em>[\WallaceMaxters\Timer\Time](#class-wallacemaxterstimertime)</em> <strong>$time</strong>)</strong> : <em>[\WallaceMaxters\Timer\Time](#class-wallacemaxterstimertime)</em> |
+| public | <strong>setTime(</strong><em>[\WallaceMaxters\Timer\Time](#class-wallacemaxterstimertime)</em> <strong>$time</strong>)</strong> : <em>void</em><br /><em>s</em> |
 
+<hr /> 
+### Class: \WallaceMaxters\Timer\Diff
 
-Exemplos:
+| Visibility | Function |
+|:-----------|:---------|
+| public | <strong>__construct(</strong><em>mixed</em> <strong>$time=null</strong>)</strong> : <em>void</em> |
+| public | <strong>diff(</strong><em>[\WallaceMaxters\Timer\Time](#class-wallacemaxterstimertime)</em> <strong>$time</strong>)</strong> : <em>WallaceMaxters\Timer\Time new object with seconds of comparision result</em> |
+| public | <strong>setTime(</strong><em>[\WallaceMaxters\Timer\Time](#class-wallacemaxterstimertime)</em> <strong>$time</strong>)</strong> : <em>[\WallaceMaxters\Timer\Diff](#class-wallacemaxterstimerdiff)</em><br /><em>Determine first object of WallaceMaxters\Timer\Time for comparision</em> |
 
-O `WallaceMaxters\Timer` pode ser instalado através do composer:
+*This class implements [\WallaceMaxters\Timer\DiffInterface](#interface-wallacemaxterstimerdiffinterface)*
 
-```json
-{
-    "require": {
-        "wallacemaxters/timer": "1.1.*"
-    }
-}
+<hr /> 
+### Class: \WallaceMaxters\Timer\Collection
 
-```
-#inclusão das classes
-```php
-use WallaceMaxters\Timer\Time;
-use WallaceMaxters\Timer\Collection;
-```
-#Criação da instância
+| Visibility | Function |
+|:-----------|:---------|
+| public | <strong>__construct(</strong><em>array</em> <strong>$times=array()</strong>, <em>string</em> <strong>$format=`'%h:%i:%s'`</strong>)</strong> : <em>void</em> |
+| public | <strong>attach(</strong><em>[\WallaceMaxters\Timer\Time](#class-wallacemaxterstimertime)</em> <strong>$time</strong>)</strong> : <em>\Wallacemaxters\Timer\Collection</em><br /><em>Attaches a time object to collection</em> |
+| public | <strong>average()</strong> : <em>[\WallaceMaxters\Timer\Time](#class-wallacemaxterstimertime)</em><br /><em>Returns the averaged time of the collection</em> |
+| public | <strong>clear()</strong> : <em>\WallaceMaxters\Timer\this</em><br /><em>Gives a empty collection</em> |
+| public | <strong>contains(</strong><em>[\WallaceMaxters\Timer\Time](#class-wallacemaxterstimertime)</em> <strong>$time</strong>)</strong> : <em>boolean</em> |
+| public | <strong>count()</strong> : <em>int</em><br /><em>Implementation of Countable. Returns the number of items in collection</em> |
+| public static | <strong>create(</strong><em>array</em> <strong>$times=array()</strong>, <em>mixed/string</em> <strong>$format=null</strong>)</strong> : <em>\WallaceMaxters\Timer\static</em><br /><em>Easy way for chainability</em> |
+| public | <strong>detach(</strong><em>[\WallaceMaxters\Timer\Time](#class-wallacemaxterstimertime)</em> <strong>$time</strong>)</strong> : <em>\Wallacemaxters\Timer\Collection</em><br /><em>Detaches a time of collection</em> |
+| public | <strong>each(</strong><em>\callable</em> <strong>$callback</strong>)</strong> : <em>[\WallaceMaxters\Timer\Collection](#class-wallacemaxterstimercollection)</em><br /><em>Walk in all elements of collection</em> |
+| public | <strong>exchangeArray(</strong><em>array</em> <strong>$times</strong>)</strong> : <em>\Wallacemaxters\Timer\Collection</em><br /><em>Clear the collection and fill with new itens</em> |
+| public | <strong>filter(</strong><em>\callable</em> <strong>$callback</strong>, <em>bool/boolean</em> <strong>$true=true</strong>)</strong> : <em>\Wallacemaxters\Timer\Collection</em><br /><em>Filter all items by callback.</em> |
+| public | <strong>first(</strong><em>\callable</em> <strong>$callback=null</strong>)</strong> : <em>[\WallaceMaxters\Timer\Time](#class-wallacemaxterstimertime) / null</em><br /><em>Search time object and return the first</em> |
+| public | <strong>getFormat()</strong> : <em>string</em><br /><em>Return the format</em> |
+| public | <strong>getIterator()</strong> : <em>\WallaceMaxters\Timer\Wallacemaxters\Timer\Collection</em><br /><em>Get a cloned instance of internal SplObjectStorage</em> |
+| public | <strong>isEmpty()</strong> : <em>boolean</em><br /><em>Is empty?</em> |
+| public | <strong>jsonSerialize()</strong> : <em>array</em><br /><em>Implementation of \JsonSerializable</em> |
+| public | <strong>last(</strong><em>\callable</em> <strong>$callback=null</strong>)</strong> : <em>[\WallaceMaxters\Timer\Time](#class-wallacemaxterstimertime) / null</em><br /><em>Search time object and return the last</em> |
+| public | <strong>map(</strong><em>\callable</em> <strong>$callback</strong>)</strong> : <em>mixed</em><br /><em>Map the array to return new value type</em> |
+| public | <strong>max()</strong> : <em>[\WallaceMaxters\Timer\Time](#class-wallacemaxterstimertime)</em><br /><em>Returns the major time</em> |
+| public | <strong>merge(</strong><em>[\WallaceMaxters\Timer\Collection](#class-wallacemaxterstimercollection)/\self</em> <strong>$collection</strong>)</strong> : <em>\Wallacemaxters\Timer\Collection</em><br /><em>Merge the collection with another collection</em> |
+| public | <strong>mergeArray(</strong><em>array</em> <strong>$times</strong>)</strong> : <em>\Wallacemaxters\Timer\Collection</em><br /><em>Merges the current collection with array</em> |
+| public | <strong>min()</strong> : <em>[\WallaceMaxters\Timer\Time](#class-wallacemaxterstimertime)</em><br /><em>Return the minor time</em> |
+| public | <strong>push(</strong><em>int</em> <strong>$seconds</strong>)</strong> : <em>\Wallacemaxters\Timer\Collection</em><br /><em>Add time from seconds in collection</em> |
+| public | <strong>reject(</strong><em>\callable</em> <strong>$callback</strong>)</strong> : <em>void</em><br /><em>Filter that returns element when is not rejected by callback</em> |
+| public | <strong>setFormat(</strong><em>mixed</em> <strong>$format</strong>)</strong> : <em>\Wallacemaxters\Timer\Collection</em><br /><em>Defines the format used in all items of collection</em> |
+| public | <strong>sort(</strong><em>\callable</em> <strong>$callback</strong>)</strong> : <em>\Wallacemaxters\Timer\Collection</em><br /><em>Sorts the collection by callback</em> |
+| public | <strong>sortAsc()</strong> : <em>\Wallacemaxters\Timer\Collection</em><br /><em>Sorts the collection by ascending direction</em> |
+| public | <strong>sortDesc()</strong> : <em>\Wallacemaxters\Timer\Collection</em><br /><em>Sorts a collection by descending order</em> |
+| public | <strong>sum()</strong> : <em>\Wallacemaxters\Timer\Collection</em><br /><em>Create a new instance of WallaceMaxters\Timer\Time with all seconds of items of colection objets summed</em> |
+| public | <strong>toArray()</strong> : <em>array</em><br /><em>Converts the collection to array</em> |
+| public | <strong>toArrayOfSeconds()</strong> : <em>array</em><br /><em>Converts the collection to array of seconds</em> |
 
-O objeto **WallaceMaxters\Timer\Time** pode ser instanciado com parâmetro ou não
+*This class implements \Countable, \IteratorAggregate, \Traversable, \JsonSerializable*
 
-```php
-  list($hours, $minutes, $seconds) = [1, 0, 30];
-  
-  new Time($hours, $minutes, $seconds);
-```
+<hr /> 
+### Class: \WallaceMaxters\Timer\Time
 
-Também os parâmetros podem ser passados depois da instanciação do objeto:
+| Visibility | Function |
+|:-----------|:---------|
+| public | <strong>__construct(</strong><em>mixed</em> <strong>$hours</strong>, <em>mixed</em> <strong>$minutes</strong>, <em>mixed</em> <strong>$seconds</strong>)</strong> : <em>void</em> |
+| public | <strong>__toString()</strong> : <em>string</em> |
+| public | <strong>addHours(</strong><em>int</em> <strong>$hours</strong>)</strong> : <em>void</em><br /><em>Add hours</em> |
+| public | <strong>addMinutes(</strong><em>int</em> <strong>$minutes</strong>)</strong> : <em>void</em><br /><em>Add minutes</em> |
+| public | <strong>addSeconds(</strong><em>mixed</em> <strong>$seconds</strong>)</strong> : <em>void</em><br /><em>Add seconds</em> |
+| public static | <strong>create(</strong><em>int</em> <strong>$hours</strong>, <em>int</em> <strong>$minutes</strong>, <em>int</em> <strong>$seconds</strong>)</strong> : <em>\WallaceMaxters\Timer\static</em><br /><em>Easy way for chainability</em> |
+| public static | <strong>createFromCurrentTimestamp()</strong> : <em>[\WallaceMaxters\Timer\Time](#class-wallacemaxterstimertime)</em><br /><em>Create full hours from current timestamp</em> |
+| public static | <strong>createFromFormat(</strong><em>string</em> <strong>$format</strong>, <em>string</em> <strong>$value</strong>, <em>string</em> <strong>$separator=`':'`</strong>)</strong> : <em>[\WallaceMaxters\Timer\Time](#class-wallacemaxterstimertime)</em><br /><em>Create time from format</em> |
+| public static | <strong>createFromNow(</strong><em>\DateTimeZone</em> <strong>$timezone=null</strong>)</strong> : <em>[\WallaceMaxters\Timer\Time](#class-wallacemaxterstimertime)</em><br /><em>Create the time from now time only</em> |
+| public static | <strong>createFromString(</strong><em>string</em> <strong>$time</strong>)</strong> : <em>[\WallaceMaxters\Timer\Time](#class-wallacemaxterstimertime)</em> |
+| public | <strong>diff(</strong><em>[\WallaceMaxters\Timer\Time](#class-wallacemaxterstimertime)</em> <strong>$time</strong>)</strong> : <em>[\WallaceMaxters\Timer\Time](#class-wallacemaxterstimertime)</em><br /><em>Get a new instance of WallaceMaxters\Timer\Time of diff with another Time</em> |
+| public | <strong>format(</strong><em>mixed/string</em> <strong>$format=null</strong>)</strong> : <em>void</em><br /><em>Format the output time <code> Time::create(1, 59, 59)->format('%h:%i:%s'); // "1:59:59" </code></em> |
+| public | <strong>getDiff()</strong> : <em>\WallaceMaxters\Timer\WallaceMaxters\Timer\DiffInterface</em> |
+| public | <strong>getSeconds()</strong> : <em>int</em><br /><em>Get seconds from total hours defined</em> |
+| public | <strong>isNegative()</strong> : <em>boolean</em> |
+| public | <strong>jsonSerialize()</strong> : <em>array</em><br /><em>Implementation for \JsonSerializable</em> |
+| public | <strong>setDiff(</strong><em>[\WallaceMaxters\Timer\DiffInterface](#interface-wallacemaxterstimerdiffinterface)</em> <strong>$diff</strong>)</strong> : <em>\WallaceMaxters\Timer\$this</em> |
+| public | <strong>setFormat(</strong><em>string</em> <strong>$format</strong>)</strong> : <em>void</em><br /><em>Define the format used in self::__toString</em> |
+| public | <strong>setHours(</strong><em>int</em> <strong>$hours</strong>)</strong> : <em>void</em> |
+| public | <strong>setMinutes(</strong><em>\WallaceMaxters\Timer\minutes</em> <strong>$minutes</strong>)</strong> : <em>void</em> |
+| public | <strong>setSeconds(</strong><em>int</em> <strong>$seconds</strong>)</strong> : <em>void</em> |
+| public | <strong>setTime(</strong><em>int</em> <strong>$hours</strong>, <em>int</em> <strong>$minutes</strong>, <em>int</em> <strong>$seconds</strong>)</strong> : <em>\WallaceMaxters\Timer\$this</em> |
 
-```php
-$time = new Time();
+*This class implements \JsonSerializable*
 
-$time->setSeconds(30);
+<hr /> 
+### Class: \WallaceMaxters\Timer\Parser
 
-$time->setMinutes(30);
+| Visibility | Function |
+|:-----------|:---------|
+| public | <strong>__construct(</strong><em>[\WallaceMaxters\Timer\Time](#class-wallacemaxterstimertime)</em> <strong>$time=null</strong>)</strong> : <em>void</em><br /><em>Object Constructor</em> |
+| public | <strong>fromFormat(</strong><em>string</em> <strong>$format</strong>, <em>string</em> <strong>$value</strong>, <em>string</em> <strong>$separator=`':'`</strong>)</strong> : <em>[\WallaceMaxters\Timer\Time](#class-wallacemaxterstimertime)</em> |
+| public | <strong>getTime()</strong> : <em>[\WallaceMaxters\Timer\Time](#class-wallacemaxterstimertime)</em> |
+| public | <strike><strong>parseFormat(</strong><em>mixed</em> <strong>$format</strong>, <em>mixed</em> <strong>$value</strong>, <em>string</em> <strong>$separator=`':'`</strong>)</strong> : <em>void</em></strike><br /><em>DEPRECATED - use format instead of</em> |
 
-$time->addMinutes(30); // Diferente dos métodos que inciam com "set", ele adiciona valores no já existente
-```
-#Maneira curta para definir o tempo
-```php
-$time->setTime($hours, $minutes, $seconds);
+<hr /> 
+### Class: \WallaceMaxters\Timer\Laravel\TimeFacade
 
-```
-#testando o objeto Time
-```php
-$time = new Time;
+| Visibility | Function |
+|:-----------|:---------|
+| protected static | <strong>getFacadeAccessor()</strong> : <em>mixed</em> |
 
-$time->setMinutes(70);
+*This class extends \Illuminate\Support\Facades\Facade*
 
+<hr /> 
+### Class: \WallaceMaxters\Timer\Laravel\TimeServiceProvider
 
-echo $time, PHP_EOL; // 01:10:00
-```
-#Diferença entre dois tempos com o método **Time::diff**
-```
-echo $time->diff(new Time(0, 20))->format('%h:%i:%s'), PHP_EOL; // 00:50:00
-```
+| Visibility | Function |
+|:-----------|:---------|
+| public | <strong>register()</strong> : <em>void</em> |
 
-```php 
-$time1 = new Time();
-
-$time1->addSeconds(3600)->addSeconds(24);
-
-$time2 = new Time();
-
-$time2->addSeconds(-10);
-
-$diff = $time1->diff($time2);
-```
-
-#O objeto Diff.
-
-Ao chamar o objeto Diff, ele retornará uma nova instância de Time, com os segundos comparados.
-
-```php
-
-$time1 = Time::create(0, 20, 0);
-
-$time2 = Time::create(0, 15, 0);
-
-$diff = $time1->diff($time2);
-
-echo $diff->format('%h:%i:%s'); // 00:05:00
-
-```
-
-#O objeto **Collection**
-Com o objeto `WallaceMaxters\Timer\Collection` é possível adicionar uma lista de `Time` à coleção. Isso torna possível a utilização de filtros, somas e afins.
-
-```
-$collection = new Collection([50, 60, 70]);
-
-// OR
-
-$collection = new Collection([
-     Time::create(0,0,50),
-     Time::create(0,0,60)
-]);
-
-// Retorna um Time com os resultados somados
-
-echo $collection->sum()->getSeconds();
-
-$collection->filter(function ($second) {
-   return $second->getSeconds() > 30;
-});
-```
-
-#LARAVEL 4
-
-Para utilizar no Framework Laravel, basta instalar a versão `1.1.0 >=` e adicionar os seguintes trechos no arquivo `config/app.php` 
-
-**Facade**
-```php 
-'Time' =>  'WallaceMaxters\Timer\Laravel\TimeFacade',
-```
-
-**ServiceProvider**
-```php
-'WallaceMaxters\Timer\Laravel\TimeServiceProvider',
-```
-
-No Laravel é possível fazer a chamada:
-
-```php
-Time::addSeconds(30)->addSeconds(30)->format('%h:%i');
-```
-
-*Atenção*
-
-O ServiceProvider torna a instância de `WallaceMaxters\Timer\Time` única.
-
-Para contornar isso, você poderá usar o método `Time::create`
-
-```php
-Time::create()->addSeconds(30);
-```
+*This class extends \Illuminate\Support\ServiceProvider*
 
