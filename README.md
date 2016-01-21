@@ -5,8 +5,6 @@
 - [\WallaceMaxters\Timer\Collection](#class-wallacemaxterstimercollection)
 - [\WallaceMaxters\Timer\Time](#class-wallacemaxterstimertime)
 - [\WallaceMaxters\Timer\Parser](#class-wallacemaxterstimerparser)
-
-## For Laravel 4 implemetation
 - [\WallaceMaxters\Timer\Laravel\TimeFacade](#class-wallacemaxterstimerlaraveltimefacade)
 - [\WallaceMaxters\Timer\Laravel\TimeServiceProvider](#class-wallacemaxterstimerlaraveltimeserviceprovider)
 
@@ -24,7 +22,7 @@
 | Visibility | Function |
 |:-----------|:---------|
 | public | <strong>__construct(</strong><em>mixed</em> <strong>$time=null</strong>)</strong> : <em>void</em> |
-| public | <strong>diff(</strong><em>[\WallaceMaxters\Timer\Time](#class-wallacemaxterstimertime)</em> <strong>$time</strong>)</strong> : <em>WallaceMaxters\Timer\Time new object with seconds of comparision result</em> |
+| public | <strong>diff(</strong><em>[\WallaceMaxters\Timer\Time](#class-wallacemaxterstimertime)</em> <strong>$time</strong>)</strong> : <em>\WallaceMaxters\Timer\WallaceMaxters\Timer\Time</em><br /><em>Returns diff of times in new instance of Time</em> |
 | public | <strong>setTime(</strong><em>[\WallaceMaxters\Timer\Time](#class-wallacemaxterstimertime)</em> <strong>$time</strong>)</strong> : <em>[\WallaceMaxters\Timer\Diff](#class-wallacemaxterstimerdiff)</em><br /><em>Determine first object of WallaceMaxters\Timer\Time for comparision</em> |
 
 *This class implements [\WallaceMaxters\Timer\DiffInterface](#interface-wallacemaxterstimerdiffinterface)*

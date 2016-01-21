@@ -23,8 +23,9 @@ class Diff implements DiffInterface
 
 
     /**
-    * @param WallaceMaxters\Timer\Time $time = Time for comparision
-    * @return WallaceMaxters\Timer\Time new object with seconds of comparision result
+    * Returns diff of times in new instance of Time
+    * @param WallaceMaxters\Timer\Time $time
+    * @return WallaceMaxters\Timer\Time
     */
 
     public function diff(Time $time)
