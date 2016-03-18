@@ -1,6 +1,6 @@
 ## Table of contents
 
-https://travis-ci.org/wallacemaxters/timer.svg?branch=master
+[![Build Status](https://travis-ci.org/wallacemaxters/timer.svg?branch=master)](https://travis-ci.org/wallacemaxters/timer)
 
 - [\WallaceMaxters\Timer\Collection](#class-wallacemaxterstimercollection)
 - [\WallaceMaxters\Timer\Time](#class-wallacemaxterstimertime)
