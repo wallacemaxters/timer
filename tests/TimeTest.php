@@ -55,4 +55,28 @@ class TimeTest extends PHPUnit_Framework_TestCase
 			$time2->format()
 		);
 	}
+
+
+	public function testDiff()
+	{
+		$time = new Time(0, 0, 10);
+
+		$time2 = new Time(0, 0, 5);
+
+
+		$this->assertEquals(
+			5,
+			$time->diff($time2, true)->getSeconds()
+		);
+
+		$this->assertEquals(
+			-5,
+			$time2->diff($time, false)->getSeconds()
+		);
+
+		$this->assertEquals(
+			5,
+			$time2->diff($time, true)->getSeconds()
+		);
+	}
 }

@@ -58,12 +58,11 @@
 | public static | <strong>createFromFormat(</strong><em>string</em> <strong>$format</strong>, <em>string</em> <strong>$value</strong>)</strong> : <em>[\WallaceMaxters\Timer\Time](#class-wallacemaxterstimertime)</em><br /><em>Create time from format</em> |
 | public static | <strong>createFromNow(</strong><em>\DateTimeZone</em> <strong>$timezone=null</strong>)</strong> : <em>[\WallaceMaxters\Timer\Time](#class-wallacemaxterstimertime)</em><br /><em>Create the time from now time only</em> |
 | public static | <strong>createFromString(</strong><em>string</em> <strong>$time</strong>)</strong> : <em>[\WallaceMaxters\Timer\Time](#class-wallacemaxterstimertime)</em> |
-| public | <strong>diff(</strong><em>[\WallaceMaxters\Timer\Time](#class-wallacemaxterstimertime)</em> <strong>$time</strong>)</strong> : <em>[\WallaceMaxters\Timer\Time](#class-wallacemaxterstimertime)</em><br /><em>Get a new instance of WallaceMaxters\Timer\Time of diff with another Time</em> |
-| public | <strong>format(</strong><em>mixed/string</em> <strong>$format=null</strong>)</strong> : <em>void</em><br /><em>Format the output time</em> |
+| public | <strong>diff(</strong><em>[\WallaceMaxters\Timer\Time](#class-wallacemaxterstimertime)</em> <strong>$time</strong>, <em>bool/boolean</em> <strong>$absolute=true</strong>)</strong> : <em>[\WallaceMaxters\Timer\Time](#class-wallacemaxterstimertime)</em><br /><em>Get a new instance of WallaceMaxters\Timer\Time of diff with another Time</em> |
+| public | <strong>format(</strong><em>mixed/string</em> <strong>$format=null</strong>)</strong> : <em>void</em><br /><em>Format the output timey</em> |
 | public | <strong>getSeconds()</strong> : <em>int</em><br /><em>Get seconds from total hours defined</em> |
 | public | <strong>isNegative()</strong> : <em>boolean</em> |
 | public | <strong>jsonSerialize()</strong> : <em>array</em><br /><em>Implementation for \JsonSerializable</em> |
-| public | <strong>setDiff(</strong><em>\WallaceMaxters\Timer\DiffInterface</em> <strong>$diff</strong>)</strong> : <em>\WallaceMaxters\Timer\$this</em> |
 | public | <strong>setFormat(</strong><em>string</em> <strong>$format</strong>)</strong> : <em>void</em><br /><em>Define the format used in self::__toString</em> |
 | public | <strong>setHours(</strong><em>int</em> <strong>$hours</strong>)</strong> : <em>void</em> |
 | public | <strong>setMinutes(</strong><em>\WallaceMaxters\Timer\minutes</em> <strong>$minutes</strong>)</strong> : <em>void</em> |
