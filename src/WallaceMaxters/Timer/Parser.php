@@ -2,8 +2,6 @@
 
 namespace WallaceMaxters\Timer;
 
-use InvalidArgumentException;
-
 /**
  * @author Wallace de Souza Vizerra <wallacemaxters@gmail.com>
 */
@@ -12,11 +10,9 @@ class Parser
 {
 
     /**
-    * @access public
     * @param string $format
     * @param string $value
     * @return \WallaceMaxters\Timer\Time
-    * @throws \InvalidArgumentException
     */
 
     public function fromFormat($format, $value)
@@ -27,7 +23,7 @@ class Parser
     }
 
     /**
-    * @access protected
+    * @throws \InvalidArgumentException
     * @return array
     */
     protected function getReplacements()

@@ -33,12 +33,7 @@ class Time implements JsonSerializable
      * */
     protected $format = self::DEFAULT_FORMAT;
     
-    /**
-     * @var WallaceMaxters\Timer\Diff
-     * */
-    protected $diff;
     
-
     /**
     * The constructor
     * @param int $hours
@@ -142,7 +137,8 @@ class Time implements JsonSerializable
     }
 
     /**
-     * Format the output time
+     * Format the output timey
+     
      * @param string $format 
      * */
     public function format($format = null)
@@ -205,21 +201,7 @@ class Time implements JsonSerializable
     {
         return $this->format($this->format);
     }
-    
-    /**
-     * @param \WallaceMaxters\Timer\DiffInterface $diff
-     * @return $this
-     * */
-    public function setDiff(DiffInterface $diff)
-    {
-        $this->diff = $diff;
-
-        $this->diff->setTime($this);
-
-        return $this;
-    }
-
-    
+        
     /**
      * Get a new instance of WallaceMaxters\Timer\Time of diff with another Time
      * 
