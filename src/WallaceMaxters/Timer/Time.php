@@ -148,13 +148,13 @@ class Time implements JsonSerializable
             $format = $this->format;
         }
 
-        $absoluteSeconds = abs($this->seconds);
+        $seconds = abs($this->seconds);
 
-        $hours =   floor($absoluteSeconds / 3600);
+        $hours =   floor($seconds / 3600);
 
-        $minutes = floor(($absoluteSeconds - ($hours * 3600)) / 60);
+        $minutes = floor(($seconds - ($hours * 3600)) / 60);
 
-        $seconds = floor($absoluteSeconds % 60);
+        $seconds = floor($seconds % 60);
 
         $totalMinutes = $hours * 60;
 

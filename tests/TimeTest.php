@@ -41,6 +41,8 @@ class TimeTest extends PHPUnit_Framework_TestCase
 			'-00:00:50',
 			$time->format()
 		);
+
+		$this->assertTrue($time->isNegative());
 	}
 
 	public function testCreateFromFormat()
@@ -79,4 +81,78 @@ class TimeTest extends PHPUnit_Framework_TestCase
 			$time2->diff($time, true)->getSeconds()
 		);
 	}
+
+
+	public function testCreateFromNow()
+	{
+
+		date_default_timezone_set('America/Sao_Paulo');
+
+		$now = date('H:i:s');
+
+		$time = Time::createFromNow(
+			new DateTimeZone('America/Sao_Paulo')
+		);
+
+		$this->assertEquals($now, (string)$time);
+
+	}
+
+	public function testAddMethod()
+	{
+		$time = Time::create();
+
+		$time->add(7);
+
+		$time->add(0, 50);
+
+		$time->add(0, 0, 20);
+
+		$time->add(-3);
+
+		$this->assertEquals(
+			'04:50:20',
+			$time->format()
+		);
+	}
+
+
+	public function testCreateFromString()
+	{
+		$time = Time::createFromString('+2 day');
+
+		$time->addMinutes(25);
+
+		$this->assertEquals(
+			'48:25:00',
+			$time->format()
+		);
+
+		$time2 = Time::createFromString('100 hours 5 minutes');
+
+		$this->assertEquals(
+			'100:05:00',
+			$time2->format()
+		);
+	}
+
+
+	public function testFormat()
+	{
+
+		$time = Time::create(23, 59, 59);
+
+		$time->setFormat("%hh%im%ss");
+
+		$this->assertEquals(
+			'23h59m59s',
+			$time->format()
+		);
+
+		$this->assertEquals(
+			'H[23]M[59]S[59]',
+			$time->format("H[%h]M[%i]S[%s]")
+		);
+	}
+
 }
