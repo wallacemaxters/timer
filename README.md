@@ -1,5 +1,7 @@
 ## Table of contents
 
+https://travis-ci.org/wallacemaxters/timer.svg?branch=master
+
 - [\WallaceMaxters\Timer\Collection](#class-wallacemaxterstimercollection)
 - [\WallaceMaxters\Timer\Time](#class-wallacemaxterstimertime)
 - [\WallaceMaxters\Timer\Parser](#class-wallacemaxterstimerparser)
