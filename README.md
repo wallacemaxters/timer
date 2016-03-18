@@ -50,6 +50,7 @@
 |:-----------|:---------|
 | public | <strong>__construct(</strong><em>int</em> <strong>$hours</strong>, <em>int</em> <strong>$minutes</strong>, <em>int</em> <strong>$seconds</strong>)</strong> : <em>void</em><br /><em>The constructor</em> |
 | public | <strong>__toString()</strong> : <em>string</em> |
+| public | <strong>add(</strong><em>int</em> <strong>$hours</strong>, <em>int</em> <strong>$minutes</strong>, <em>int</em> <strong>$seconds</strong>)</strong> : <em>[\WallaceMaxters\Timer\Time](#class-wallacemaxterstimertime)</em> |
 | public | <strong>addHours(</strong><em>int</em> <strong>$hours</strong>)</strong> : <em>void</em><br /><em>Add hours</em> |
 | public | <strong>addMinutes(</strong><em>int</em> <strong>$minutes</strong>)</strong> : <em>void</em><br /><em>Add minutes</em> |
 | public | <strong>addSeconds(</strong><em>mixed</em> <strong>$seconds</strong>)</strong> : <em>void</em><br /><em>Add seconds</em> |

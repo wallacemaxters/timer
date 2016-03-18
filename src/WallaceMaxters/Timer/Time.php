@@ -283,5 +283,22 @@ class Time implements JsonSerializable
             'seconds'   => $this->getSeconds(),
         ];
     }
+
+
+    /**
+    * 
+    * @param int $hours
+    * @param int $minutes
+    * @param int $seconds
+    * @return \WallaceMaxters\Timer\Time
+    */
+
+    public function add($hours = 0, $minutes = 0, $seconds = 0)
+    {
+        return $this->addHours($hours)
+                    ->addMinutes($minutes)
+                    ->addSeconds($seconds);
+    }
+
     
 }
