@@ -6,7 +6,7 @@
         "php" : ">=5.4.0"
     },
     "require-dev": {
-        "victorjonsson/markdowndocs": "dev-master"
+        "victorjonsson/markdowndocs": "1.2.*"
     },
     "autoload" : {
         "psr-4": {
