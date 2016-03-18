@@ -6,15 +6,11 @@
         "php" : ">=5.4.0"
     },
     "require-dev": {
-        "victorjonsson/markdowndocs": "dev-master",
-        "illuminate/support" : "4.*"
+        "victorjonsson/markdowndocs": "dev-master"
     },
     "autoload" : {
         "psr-4": {
             "WallaceMaxters\\": "src/WallaceMaxters/"
         }
-    },
-    "suggest" : {
-        "illuminate/support": "for use with Laravel Framework"
     }
 }

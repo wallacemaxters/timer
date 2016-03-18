@@ -417,5 +417,8 @@ class Collection implements Countable, IteratorAggregate, JsonSerializable
     {
         return $this->format;
     }
+
+
+    
    
 }

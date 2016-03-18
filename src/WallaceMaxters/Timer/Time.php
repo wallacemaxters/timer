@@ -70,6 +70,7 @@ class Time implements JsonSerializable
      * @param int $seconds 
      * @return $this
      * */
+
     public function setTime($hours, $minutes, $seconds)
     {
 
@@ -142,10 +143,6 @@ class Time implements JsonSerializable
 
     /**
      * Format the output time
-     * <code>
-     *      Time::create(1, 59, 59)->format('%h:%i:%s');
-     *      // "1:59:59"
-     * </code>
      * @param string $format 
      * */
     public function format($format = null)
@@ -222,13 +219,6 @@ class Time implements JsonSerializable
         return $this;
     }
 
-    /**
-     * @return WallaceMaxters\Timer\DiffInterface
-     * */
-    public function getDiff()
-    {
-        return $this->diff ?: $this->diff = new Diff($this);
-    }
     
     /**
      * Get a new instance of WallaceMaxters\Timer\Time of diff with another Time
@@ -238,7 +228,9 @@ class Time implements JsonSerializable
      * */
     public function diff(Time $time)
     {
-        return $this->getDiff()->diff($time);
+        $diff = $this->getSeconds() - $time->getSeconds();
+
+        return new self(0, 0, abs($diff));
     }
 
     /**
@@ -246,17 +238,11 @@ class Time implements JsonSerializable
     * @static
     * @param string $format = Format from creation
     * @param string $value = string value of time intended for parse
-    * @param string $separator (optional)
     * @return \WallaceMaxters\Timer\Time
     */
-    public static function createFromFormat($format, $value, $separator = ':')
+    public static function createFromFormat($format, $value)
     {
-
-        $parser = new Parser(new self);
-
-        $parser->fromFormat($format, $value, $separator);
-
-        return $parser->getTime();
+        return (new Parser())->fromFormat($format, $value);
     }
 
     /**
