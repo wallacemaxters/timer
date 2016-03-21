@@ -11,7 +11,6 @@ use IteratorAggregate;
 /**
  * @author Wallace de Souza Vizerra <wallacemaxters@gmail.com>
  * */
-
 class Collection implements Countable, IteratorAggregate, JsonSerializable
 {
 
@@ -46,7 +45,7 @@ class Collection implements Countable, IteratorAggregate, JsonSerializable
     * @param string $format = Default format for all items of collection
     * @return static
     */
-    public static function create(array $times = [], $format = null)
+    public static function create(array $times = [], $format = Time::DEFAULT_FORMAT)
     {
         return new static($times, $format);
     }
@@ -64,10 +63,9 @@ class Collection implements Countable, IteratorAggregate, JsonSerializable
             if (! $time instanceof Time) {
 
                 $time = new Time(0, 0, (int) $time);
-
             }
 
-            $this->attach($time);
+            $this->attach($time); 
         }
 
         return $this;
@@ -211,7 +209,7 @@ class Collection implements Countable, IteratorAggregate, JsonSerializable
 
     public function sum()
     {
-        return new Time(0, 0, array_sum($this->toArrayOfSeconds()));
+        return $this->createTime(0, 0, array_sum($this->toArrayOfSeconds()));
     }
 
     /**
@@ -337,7 +335,7 @@ class Collection implements Countable, IteratorAggregate, JsonSerializable
      * */
     public function max()
     {
-        return new Time(0, 0, max($this->toArrayOfSeconds()));
+        return $this->createTime(0, 0, max($this->toArrayOfSeconds()));
     }
 
     /**
@@ -346,7 +344,7 @@ class Collection implements Countable, IteratorAggregate, JsonSerializable
     **/
     public function min()
     {
-        return new Time(0, 0, min($this->toArrayOfSeconds()));
+        return $this->createTime(0, 0, min($this->toArrayOfSeconds()));
     }
 
     /**
@@ -357,7 +355,7 @@ class Collection implements Countable, IteratorAggregate, JsonSerializable
     {
         $average = floor($this->sum()->getSeconds() / $this->count());
 
-        return new Time(0, 0, $average);
+        return $this->createTime(0, 0, $average);
     }
 
     /**
@@ -379,7 +377,7 @@ class Collection implements Countable, IteratorAggregate, JsonSerializable
 
         foreach ($this->items as $time) {
 
-            $time->setFormat($this->format);
+            $time->setFormat($format);
         }
 
         return $this;
@@ -419,6 +417,16 @@ class Collection implements Countable, IteratorAggregate, JsonSerializable
     }
 
 
-    
+    /**
+    * Make a instance of Time with collection time format
+    * @param int $hours
+    * @param int $minutes
+    * @param int $seconds
+    * @return \WallaceMaxters\Timer\Time
+    */
+    protected function createTime($hours = 0, $minutes = 0, $seconds = 0)
+    {
+        return (new Time($hours, $minutes, $seconds))->setFormat($this->format);
+    }
    
 }

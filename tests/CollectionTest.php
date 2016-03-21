@@ -39,8 +39,8 @@ class CollectionTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals(
 			Time::create(0, 0, $avg)->format(),
-
 			$collection->average()->format()
+			
 		);
 	}
 
@@ -65,7 +65,7 @@ class CollectionTest extends PHPUnit_Framework_TestCase
 
 		$this->assertTrue($collection->isEmpty());
 
-		$collection->push(50);
+		$collection->push(50); // seconds
 
 		$this->assertFalse($collection->isEmpty());
 	}
