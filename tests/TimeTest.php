@@ -82,22 +82,6 @@ class TimeTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
-
-	public function testCreateFromNow()
-	{
-
-		date_default_timezone_set('America/Sao_Paulo');
-
-		$now = date('H:i:s');
-
-		$time = Time::createFromNow(
-			new DateTimeZone('America/Sao_Paulo')
-		);
-
-		$this->assertEquals($now, (string)$time);
-
-	}
-
 	public function testAddMethod()
 	{
 		$time = Time::create();
@@ -155,4 +139,14 @@ class TimeTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
+
+	public function testTotalMinutes()
+	{
+		$time = Time::create(2, 20, 0);
+
+		$this->assertEquals(
+			'140:00',
+			$time->format('%I:%s')
+		);
+	}
 }

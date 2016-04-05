@@ -5,8 +5,6 @@ use WallaceMaxters\Timer\Time;
 
 class CollectionTest extends PHPUnit_Framework_TestCase
 {
-
-
 	public function testSum()
 	{
 		$collection = Collection::create([50, 60, 70]);

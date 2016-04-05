@@ -81,7 +81,9 @@ class Time implements JsonSerializable
      * */
     public function setSeconds($seconds)
     {
-        return $this->setTime(0, 0, $seconds);
+        $this->seconds = $seconds;
+
+        return $this;
     }
 
     /**
@@ -144,39 +146,11 @@ class Time implements JsonSerializable
     public function format($format = null)
     {
 
-        if (null === $format) {
-            $format = $this->format;
-        }
+        $format ?: $format = $this->format;
 
-        $seconds = abs($this->seconds);
+        $output = strtr($format, $this->getFormattedReplacements());
 
-        $hours =   floor($seconds / 3600);
-
-        $minutes = floor(($seconds - ($hours * 3600)) / 60);
-
-        $seconds = floor($seconds % 60);
-
-        $totalMinutes = $hours * 60;
-
-        $elements = array_map(function ($value)
-        {   
-            return sprintf('%02d', $value);
-
-        },[$hours, $minutes, $seconds, $totalMinutes]);
-
-        $aliases = [
-            self::HOUR_FORMAT,
-            self::MINUTE_FORMAT, 
-            self::SECOND_FORMAT, 
-            self::TOTAL_MINUTES_FORMAT,
-        ];
-
-        $output = str_replace($aliases, $elements, $format);
-
-        if ($this->isNegative()) {
-
-            return '-' . $output;
-        }
+        $this->isNegative() && $output = '-' . $output;
 
         return $output;
 
@@ -238,31 +212,6 @@ class Time implements JsonSerializable
     }
 
     /**
-    * Create full hours from current timestamp
-    * @static
-    * @return \WallaceMaxters\Timer\Time
-    */
-    public static function createFromCurrentTimestamp()
-    {
-        return new static(0, 0, strtotime('now'));
-    }
-
-    /**
-    * Create the time from now time only
-    * @static
-    * @param $timezone null|\DateTimeZone
-    * @return \WallaceMaxters\Timer\Time
-    */
-
-    public static function createFromNow(\DateTimeZone $timezone = null)
-    {
-        return static::createFromFormat(
-            '%h:%i:%s',
-            (new \DateTime('now', $timezone))->format('H:i:s')
-        );
-    }
-
-    /**
      * @return boolean
      * */
 
@@ -300,5 +249,38 @@ class Time implements JsonSerializable
                     ->addSeconds($seconds);
     }
 
+    protected function getMembers()
+    {
+        $time = [];
+
+        $seconds = abs($this->seconds);
+
+        $time['hours'] = floor($seconds / 3600);
+
+        $time['minutes'] = floor(($seconds - ($time['hours'] * 3600)) / 60);
+
+        $time['seconds'] = floor($seconds % 60);
+
+        $time['total_minutes'] = ($time['hours'] * 60) + $time['minutes'];
+
+        return $time;
+
+    }
+
+    protected function getFormattedReplacements()
+    {
+        $zfill = function ($member) {
+            return sprintf('%02d', $member);
+        };
+
+        $time = array_map($zfill, $this->getMembers());
+
+        return [
+            self::HOUR_FORMAT          => $time['hours'],
+            self::MINUTE_FORMAT        => $time['minutes'], 
+            self::SECOND_FORMAT        => $time['seconds'], 
+            self::TOTAL_MINUTES_FORMAT => $time['total_minutes'],
+        ];
+    }
     
 }
