@@ -1,7 +1,5 @@
 ## Table of contents
 
-[![Build Status](https://travis-ci.org/wallacemaxters/timer.svg?branch=master)](https://travis-ci.org/wallacemaxters/timer)
-
 - [\WallaceMaxters\Timer\Collection](#class-wallacemaxterstimercollection)
 - [\WallaceMaxters\Timer\Time](#class-wallacemaxterstimertime)
 - [\WallaceMaxters\Timer\Parser](#class-wallacemaxterstimerparser)
@@ -17,7 +15,7 @@
 | public | <strong>clear()</strong> : <em>\WallaceMaxters\Timer\this</em><br /><em>Gives a empty collection</em> |
 | public | <strong>contains(</strong><em>[\WallaceMaxters\Timer\Time](#class-wallacemaxterstimertime)</em> <strong>$time</strong>)</strong> : <em>boolean</em> |
 | public | <strong>count()</strong> : <em>int</em><br /><em>Implementation of Countable. Returns the number of items in collection</em> |
-| public static | <strong>create(</strong><em>array</em> <strong>$times=array()</strong>, <em>mixed/string</em> <strong>$format=null</strong>)</strong> : <em>\WallaceMaxters\Timer\static</em><br /><em>Easy way for chainability</em> |
+| public static | <strong>create(</strong><em>array</em> <strong>$times=array()</strong>, <em>string</em> <strong>$format=`'%h:%i:%s'`</strong>)</strong> : <em>\WallaceMaxters\Timer\static</em><br /><em>Easy way for chainability</em> |
 | public | <strong>detach(</strong><em>[\WallaceMaxters\Timer\Time](#class-wallacemaxterstimertime)</em> <strong>$time</strong>)</strong> : <em>\Wallacemaxters\Timer\Collection</em><br /><em>Detaches a time of collection</em> |
 | public | <strong>each(</strong><em>\callable</em> <strong>$callback</strong>)</strong> : <em>[\WallaceMaxters\Timer\Collection](#class-wallacemaxterstimercollection)</em><br /><em>Walk in all elements of collection</em> |
 | public | <strong>exchangeArray(</strong><em>array</em> <strong>$times</strong>)</strong> : <em>\Wallacemaxters\Timer\Collection</em><br /><em>Clear the collection and fill with new itens</em> |
@@ -42,6 +40,7 @@
 | public | <strong>sum()</strong> : <em>\Wallacemaxters\Timer\Collection</em><br /><em>Create a new instance of WallaceMaxters\Timer\Time with all seconds of items of colection objets summed</em> |
 | public | <strong>toArray()</strong> : <em>array</em><br /><em>Converts the collection to array</em> |
 | public | <strong>toArrayOfSeconds()</strong> : <em>array</em><br /><em>Converts the collection to array of seconds</em> |
+| protected | <strong>createTime(</strong><em>int</em> <strong>$hours</strong>, <em>int</em> <strong>$minutes</strong>, <em>int</em> <strong>$seconds</strong>)</strong> : <em>[\WallaceMaxters\Timer\Time](#class-wallacemaxterstimertime)</em><br /><em>Make a instance of Time with collection time format</em> |
 
 *This class implements \Countable, \IteratorAggregate, \Traversable, \JsonSerializable*
 
@@ -57,12 +56,10 @@
 | public | <strong>addMinutes(</strong><em>int</em> <strong>$minutes</strong>)</strong> : <em>void</em><br /><em>Add minutes</em> |
 | public | <strong>addSeconds(</strong><em>mixed</em> <strong>$seconds</strong>)</strong> : <em>void</em><br /><em>Add seconds</em> |
 | public static | <strong>create(</strong><em>int</em> <strong>$hours</strong>, <em>int</em> <strong>$minutes</strong>, <em>int</em> <strong>$seconds</strong>)</strong> : <em>\WallaceMaxters\Timer\static</em><br /><em>Easy way for chainability</em> |
-| public static | <strong>createFromCurrentTimestamp()</strong> : <em>[\WallaceMaxters\Timer\Time](#class-wallacemaxterstimertime)</em><br /><em>Create full hours from current timestamp</em> |
 | public static | <strong>createFromFormat(</strong><em>string</em> <strong>$format</strong>, <em>string</em> <strong>$value</strong>)</strong> : <em>[\WallaceMaxters\Timer\Time](#class-wallacemaxterstimertime)</em><br /><em>Create time from format</em> |
-| public static | <strong>createFromNow(</strong><em>\DateTimeZone</em> <strong>$timezone=null</strong>)</strong> : <em>[\WallaceMaxters\Timer\Time](#class-wallacemaxterstimertime)</em><br /><em>Create the time from now time only</em> |
 | public static | <strong>createFromString(</strong><em>string</em> <strong>$time</strong>)</strong> : <em>[\WallaceMaxters\Timer\Time](#class-wallacemaxterstimertime)</em> |
 | public | <strong>diff(</strong><em>[\WallaceMaxters\Timer\Time](#class-wallacemaxterstimertime)</em> <strong>$time</strong>, <em>bool/boolean</em> <strong>$absolute=true</strong>)</strong> : <em>[\WallaceMaxters\Timer\Time](#class-wallacemaxterstimertime)</em><br /><em>Get a new instance of WallaceMaxters\Timer\Time of diff with another Time</em> |
-| public | <strong>format(</strong><em>mixed/string</em> <strong>$format=null</strong>)</strong> : <em>void</em><br /><em>Format the output timey</em> |
+| public | <strong>format(</strong><em>mixed/string</em> <strong>$format=null</strong>)</strong> : <em>string</em><br /><em>Format the output timey</em> |
 | public | <strong>getSeconds()</strong> : <em>int</em><br /><em>Get seconds from total hours defined</em> |
 | public | <strong>isNegative()</strong> : <em>boolean</em> |
 | public | <strong>jsonSerialize()</strong> : <em>array</em><br /><em>Implementation for \JsonSerializable</em> |
@@ -71,6 +68,8 @@
 | public | <strong>setMinutes(</strong><em>\WallaceMaxters\Timer\minutes</em> <strong>$minutes</strong>)</strong> : <em>void</em> |
 | public | <strong>setSeconds(</strong><em>int</em> <strong>$seconds</strong>)</strong> : <em>void</em> |
 | public | <strong>setTime(</strong><em>int</em> <strong>$hours</strong>, <em>int</em> <strong>$minutes</strong>, <em>int</em> <strong>$seconds</strong>)</strong> : <em>\WallaceMaxters\Timer\$this</em> |
+| protected | <strong>getFormattedReplacements()</strong> : <em>array</em><br /><em>Gets replacements for the format method</em> |
+| protected | <strong>getMembers()</strong> : <em>array</em><br /><em>Get members of time in an array</em> |
 
 *This class implements \JsonSerializable*
 

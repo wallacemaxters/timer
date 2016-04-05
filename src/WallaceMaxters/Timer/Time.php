@@ -140,20 +140,16 @@ class Time implements JsonSerializable
 
     /**
      * Format the output timey
-     
      * @param string $format 
+     * @return string
      * */
     public function format($format = null)
     {
-
         $format ?: $format = $this->format;
 
         $output = strtr($format, $this->getFormattedReplacements());
 
-        $this->isNegative() && $output = '-' . $output;
-
-        return $output;
-
+        return $this->isNegative() ? '-' . $output : $output;
     }
 
     /**
@@ -249,11 +245,15 @@ class Time implements JsonSerializable
                     ->addSeconds($seconds);
     }
 
+    /**
+     * Get members of time in an array 
+     * @return array
+     * */
     protected function getMembers()
     {
         $time = [];
 
-        $seconds = abs($this->seconds);
+        $seconds = abs($this->getSeconds());
 
         $time['hours'] = floor($seconds / 3600);
 
@@ -267,6 +267,10 @@ class Time implements JsonSerializable
 
     }
 
+    /**
+     * Gets replacements for the format method
+     * @return array
+     * */
     protected function getFormattedReplacements()
     {
         $zfill = function ($member) {
