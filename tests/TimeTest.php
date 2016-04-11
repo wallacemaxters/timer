@@ -149,4 +149,40 @@ class TimeTest extends PHPUnit_Framework_TestCase
 			$time->format('%I:%s')
 		);
 	}
+
+	public function testMultiply()
+	{
+		$time = Time::create(2, 20, 0);
+
+		$this->assertEquals(
+			'07:00:00',
+			$time->multiply(3)->format()
+		);
+	
+		$this->assertEquals(
+			'100:50:00',
+			Time::createFromFormat('%h:%i', '20:10')->multiply(5)->format()
+		);
+
+
+	}
+
+	public function testDivide()
+	{
+		$time = Time::create(2, 20, 0)->divide(2);
+
+		$this->assertEquals(
+			'01:10:00',
+			$time->format()
+		);
+
+		try {
+
+			$time->divide(0);
+
+		} catch (\Exception $e) {
+
+			$this->assertInstanceOf('InvalidArgumentException', $e);
+		}
+	}
 }

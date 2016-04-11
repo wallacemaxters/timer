@@ -3,7 +3,8 @@
     "description" : "Timer is a library for work with times, specially greather than 24 hours",
     "license" : "MIT",
     "require" : {
-        "php" : ">=5.4.0"
+        "php" : ">=5.4.0",
+        "phplegends/collections" : "dev-master"
     },
     "require-dev": {
         "victorjonsson/markdowndocs": "1.2.*"

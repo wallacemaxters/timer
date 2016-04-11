@@ -2,141 +2,65 @@
 
 namespace WallaceMaxters\Timer;
 
-use Countable;
-use ArrayAccess;
-use ArrayIterator;
-use JsonSerializable;
-use IteratorAggregate;
+use PHPLegends\Collections\Collection as BaseCollection;
 
 /**
  * @author Wallace de Souza Vizerra <wallacemaxters@gmail.com>
  * */
-class Collection implements Countable, IteratorAggregate, JsonSerializable
+class Collection extends BaseCollection
 {
-
-    /**
-     * @var array
-     * */
-    protected $items = [];
 
     /**
      * @var string
      * */
 
-    protected $format;
+    protected $format = Time::DEFAULT_FORMAT;
     
     /**
-    * @param array $times = array of seconds or Wallacemaxters\Timer\Time instance
-    * @param string $format = Default format for all items of collection
-    */
-
-    public function __construct(array $times = [], $format = Time::DEFAULT_FORMAT)
-    {
-        $this->format = $format;
-
-        $this->mergeArray($times);
-        
-    }
-
-    /**
-    * Easy way for chainability
-    * @static
-    * @param array $times
-    * @param string $format = Default format for all items of collection
-    * @return static
-    */
-    public static function create(array $times = [], $format = Time::DEFAULT_FORMAT)
-    {
-        return new static($times, $format);
-    }
-
-    /**
-     * Merges the current collection with array
-     * @param array $times
-     * @return  \Wallacemaxters\Timer\Collection
+     * @{inheritdoc}
      * */
-    public function mergeArray(array $times)
+    public function setItems(array $items)
     {
+        return parent::setItems(
+            $this->castItemsToTime($items)
+        );
+    }
 
-        foreach ($times as $key => $time) {
+    /**
+     * @{inheritdoc}
+     * */
+    public function add($time)
+    {
+        $time = $this->getAsTime($time);
 
-            if (! $time instanceof Time) {
+        return parent::add($time);
+    }
 
-                $time = new Time(0, 0, (int) $time);
-            }
+    /**
+     * @param int|string $key
+     * @param Time|int $time
+     * */
+    public function set($key, $time)
+    {
+        $time = $this->getAsTime($time);
 
-            $this->attach($time); 
-        }
+        return parent::set($key, $time);
+    }
+    
+    /**
+     * @param array $items
+     * @param false $recursive
+     * @return $this
+     * */
+    public function merge(array $items, $recursive = false)
+    {
+        parent::merge($this->castItemsToTime($items), false);
 
         return $this;
-    }
-
-    /**
-     * Clear the collection and fill with new itens
-     * @param array $times
-     * @return \Wallacemaxters\Timer\Collection
-     * */
-
-    public function exchangeArray(array $times)
-    {
-        return $this->clear()->mergeArray($times);
-    }
-
-    /**
-     * Merge the collection with another collection
-     * 
-     * @param \WallaceMaxters\Timer\Collection $collection
-     * @return \Wallacemaxters\Timer\Collection
-     * */
-    public function merge(self $collection)
-    {
-        foreach ($collection as $time) {
-
-            $this->attach($time);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Get a cloned instance of internal SplObjectStorage
-     * @return  Wallacemaxters\Timer\Collection
-     * */
-
-    public function getIterator()
-    {
-        return new ArrayIterator($this->items);
-    }
-
-    /**
-     * Sorts the collection by ascending direction
-     * @return \Wallacemaxters\Timer\Collection
-     * */
-
-    public function sortAsc()
-    {    
-        $this->sort(function ($a, $b)
-        {
-            return $a->getSeconds() - $b->getSeconds();
-        });
-
-        return $this;
-    }
-
-
-    /**
-    * Add time from seconds in collection
-    * @param int $seconds
-    * @return  \Wallacemaxters\Timer\Collection
-    */
-    public function push($seconds)
-    {
-        return $this->attach(new Time(0, 0, (int)$seconds));
     }
 
     /**
      * Attaches a time object to collection 
-     * 
      * @param \WallaceMaxters\Timer\Time $time
      * @return  \Wallacemaxters\Timer\Collection
      * */
@@ -145,7 +69,7 @@ class Collection implements Countable, IteratorAggregate, JsonSerializable
     {
         $time->setFormat($this->format);
 
-        $this->items[] = $time;
+        $this->add($time);
 
         return $this;
     }
@@ -157,7 +81,7 @@ class Collection implements Countable, IteratorAggregate, JsonSerializable
      * */
     public function detach(Time $time)
     {
-        $key = array_search($time, $this->items, true);
+        $key = $this->search($time);
 
         if ($key !== false) {
 
@@ -168,40 +92,6 @@ class Collection implements Countable, IteratorAggregate, JsonSerializable
     }
 
     /**
-    * @param \WallaceMaxters\Timer\Collection $collection
-    * @return boolean
-    * */
-
-    public function contains(Time $time)
-    {
-        return array_search($time, $this->items, true) !== false;
-    }
-
-    /**
-     * Sorts the collection by callback
-     * @param callable $callback
-     * @return \Wallacemaxters\Timer\Collection
-     * */
-    public function sort(callable $callback)
-    {
-        usort($this->items, $callback);
-
-        return $this;
-    }
-
-    /**
-     * Sorts a collection by descending order
-     * @return \Wallacemaxters\Timer\Collection
-     * */
-    public function sortDesc()
-    {
-        return $this->sort(function ($a, $b)
-        {
-            return $b->getSeconds() - $a->getSeconds();
-        });
-    }
-
-    /**
     * Create a new instance of WallaceMaxters\Timer\Time with all
     * seconds of items of colection objets summed
     * @return \Wallacemaxters\Timer\Collection
@@ -209,35 +99,13 @@ class Collection implements Countable, IteratorAggregate, JsonSerializable
 
     public function sum()
     {
-        return $this->createTime(0, 0, array_sum($this->toArrayOfSeconds()));
-    }
+        $seconds = $this->reduce(function ($result, Time $time)
+        {
+            return $result += $time->getSeconds();
 
-    /**
-    * Filter all items by callback. 
-    * @param callable $callback
-    * @param boolean $true = determine if filtering will be with "true" or "false" returned by callback
-    * @return \Wallacemaxters\Timer\Collection
-    */
-    public function filter(callable $callback, $true = true)
-    {
-        foreach ($this->items as $time) {
+        }, 0);
 
-            if ($callback($time) != $true) {
-
-                $this->detach($time);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * Filter that returns element when is not rejected by callback
-     * @param callable $callback
-     * */
-    public function reject(callable $callback)
-    {
-        return $this->filter($callback, false);
+        return $this->createTime(0, 0, $seconds);
     }
 
     /**
@@ -253,81 +121,6 @@ class Collection implements Countable, IteratorAggregate, JsonSerializable
         }, $this->toArray());
     }
 
-    /**
-     * Converts the collection to array
-     * @return array
-     * */
-    public function toArray()
-    {
-        return $this->items;
-    }
-
-    /**
-     * Gives a empty collection 
-     * @return this
-     * */
-    public function clear()
-    {
-        $this->items = [];
-
-        return $this;
-    }
-
-    /**
-     * Implementation of Countable. Returns the number of items in collection
-     * @return int
-     * */
-    public function count()
-    {
-        return count($this->items);
-    }
-    
-    /**
-     * Search time object and return the first 
-     * @param callable $callback
-     * @return \WallaceMaxters\Timer\Time | null
-     * */
-    public function first(callable $callback = null)
-    {
-        if (null === $callback) {
-
-            return reset($this->items);
-        }
-
-        foreach ($this->items as $key => $time) {
-
-            if ($callback($time, $key)) return $time;
-        }
-    }
-
-    /**
-     * Search time object and return the last 
-     * @param callable $callback
-     * @return \WallaceMaxters\Timer\Time | null
-     * */
-
-    public function last(callable $callback = null)
-    {
-        if (null === $callback) {
-
-            return end($this->items);
-        }
-
-        foreach (array_reverse($this->items) as $key => $time) {
-
-            if ($callback($time, $key)) return $time;
-        }
-
-    }
-
-    /**
-     * Is empty?
-     * @return boolean
-     * */
-    public function isEmpty()
-    {
-        return empty($this->items);
-    }
 
     /**
      * Returns the major time
@@ -359,15 +152,6 @@ class Collection implements Countable, IteratorAggregate, JsonSerializable
     }
 
     /**
-     * Implementation of \JsonSerializable
-     * @return array
-     * */
-    public function jsonSerialize()
-    {
-        return $this->toArray();
-    }
-
-    /**
      * Defines the format used in all items of collection
      * @return \Wallacemaxters\Timer\Collection
      * */
@@ -384,30 +168,6 @@ class Collection implements Countable, IteratorAggregate, JsonSerializable
     }
 
     /**
-     * Walk in all elements of collection 
-     * @param callable $callback 
-     * @return \WallaceMaxters\Timer\Collection
-     **/
-    public function each(callable $callback)
-    {
-        array_walk($this->items, $callable);
-
-        return $this;
-    }
-
-
-    /**
-     * Map the array to return new value type
-     * @param callable $callback
-     * @return mixed
-     * */
-
-    public function map(callable $callback)
-    {
-        return array_map($callback, $this->items);
-    }
-
-    /**
      * Return the format
      * @return string
      * */
@@ -415,7 +175,6 @@ class Collection implements Countable, IteratorAggregate, JsonSerializable
     {
         return $this->format;
     }
-
 
     /**
     * Make a instance of Time with collection time format
@@ -427,6 +186,25 @@ class Collection implements Countable, IteratorAggregate, JsonSerializable
     protected function createTime($hours = 0, $minutes = 0, $seconds = 0)
     {
         return (new Time($hours, $minutes, $seconds))->setFormat($this->format);
+    }
+
+    protected function castItemsToTime(array $items)
+    {
+        return array_map([$this, 'getAsTime'], $items);
+    }
+
+    /**
+     * @param Time|int $item
+     * @return Time
+     * */
+    protected function getAsTime($time)
+    {
+        if (! $time instanceof Time) {
+
+            $time = $this->createTime(0, 0, $time);
+        }
+
+        return $time;
     }
    
 }

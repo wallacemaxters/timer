@@ -3,6 +3,7 @@
 namespace WallaceMaxters\Timer;
 
 use JsonSerializable;
+use PHPLegends\Collections\Arrayable;
 
 /**
  * @author Wallace de Souza Vizerra <wallacemaxters@gmail.com>
@@ -11,6 +12,7 @@ use JsonSerializable;
  * */
 class Time implements JsonSerializable
 {
+
     const HOUR_FORMAT = '%h';
 
     const MINUTE_FORMAT = '%i';
@@ -223,12 +225,8 @@ class Time implements JsonSerializable
 
     public function jsonSerialize()
     {
-        return [
-            'formatted' => $this->format(),
-            'seconds'   => $this->getSeconds(),
-        ];
+        return $this->__toString();
     }
-
 
     /**
     * 
@@ -243,6 +241,34 @@ class Time implements JsonSerializable
         return $this->addHours($hours)
                     ->addMinutes($minutes)
                     ->addSeconds($seconds);
+    }
+
+    /**
+     * @param int $number
+     * @return $this
+     * */
+
+    public function divide($number)
+    {
+        $number = (int) $number;
+
+        if ($number === 0) {
+
+            throw new \InvalidArgumentException('Division by zero');
+        }
+
+        return $this->setSeconds($this->getSeconds() / $number);
+    }
+
+    /**
+     * @param int $number
+     * @return $this
+     * */
+    public function multiply($number)
+    {
+        $number = (int) $number;
+
+        return $this->setSeconds($this->getSeconds() * $number);
     }
 
     /**
