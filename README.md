@@ -13,7 +13,6 @@ See:
 ```php
 use WallaceMaxters\Timer\Time;
 
-
 $time = Time::create(0, 0, 10);
 
 $time->format('%h:%i%s'); // '00:00:10'
@@ -25,5 +24,12 @@ $time->format(); // '00:00:40'
 $time->addSeconds(-50);
 
 $time->format('%h:%i%s'); // '-00:00:10'
+
+```
+
+For use collection:
+
+``php
+
 
 ```

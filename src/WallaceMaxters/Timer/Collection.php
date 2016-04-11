@@ -7,6 +7,7 @@ use PHPLegends\Collections\Collection as BaseCollection;
 /**
  * @author Wallace de Souza Vizerra <wallacemaxters@gmail.com>
  * */
+
 class Collection extends BaseCollection
 {
 

@@ -4,185 +4,183 @@ use WallaceMaxters\Timer\Time;
 
 class TimeTest extends PHPUnit_Framework_TestCase
 {
-	public function testInstance()
-	{
-		$time = new Time(0, 2, 10);
+    public function testInstance()
+    {
+        $time = new Time(0, 2, 10);
 
-		$this->assertEquals('00:02:10', $time->format('%h:%i:%s'));
-	}
+        $this->assertEquals('00:02:10', $time->format('%h:%i:%s'));
+    }
 
-	public function testSeconds()
-	{
-		$time = new Time(1, 0, 0);
+    public function testSeconds()
+    {
+        $time = new Time(1, 0, 0);
 
-		$this->assertEquals(3600, $time->getSeconds());
+        $this->assertEquals(3600, $time->getSeconds());
 
-		$time->addHours(1);
+        $time->addHours(1);
 
-		$this->assertEquals(7200, $time->getSeconds());
-	}
-
-
-	public function testNegative()
-	{
-
-		$time = new Time(2, 20);
-
-		$time->addHours(-1)->addMinutes(-10);
-
-		$this->assertEquals(
-			'01:10:00',
-			$time->format('%h:%i:%s')
-		);
-
-		$time = new Time(0, 0, -50);
-
-		$this->assertEquals(
-			'-00:00:50',
-			$time->format()
-		);
-
-		$this->assertTrue($time->isNegative());
-	}
-
-	public function testCreateFromFormat()
-	{
-
-		$time = new Time(0, 0, 10);
-
-		$time2 = Time::createFromFormat('%h:%i:%s', '00:00:10');
-
-		$this->assertEquals(
-			$time->format(),
-			$time2->format()
-		);
-	}
+        $this->assertEquals(7200, $time->getSeconds());
+    }
 
 
-	public function testDiff()
-	{
-		$time = new Time(0, 0, 10);
+    public function testNegative()
+    {
 
-		$time2 = new Time(0, 0, 5);
+        $time = new Time(2, 20);
 
+        $time->addHours(-1)->addMinutes(-10);
 
-		$this->assertEquals(
-			5,
-			$time->diff($time2, true)->getSeconds()
-		);
+        $this->assertEquals(
+            '01:10:00',
+            $time->format('%h:%i:%s')
+        );
 
-		$this->assertEquals(
-			-5,
-			$time2->diff($time, false)->getSeconds()
-		);
+        $time = new Time(0, 0, -50);
 
-		$this->assertEquals(
-			5,
-			$time2->diff($time, true)->getSeconds()
-		);
-	}
+        $this->assertEquals(
+            '-00:00:50',
+            $time->format()
+        );
 
-	public function testAddMethod()
-	{
-		$time = Time::create();
+        $this->assertTrue($time->isNegative());
+    }
 
-		$time->add(7);
+    public function testCreateFromFormat()
+    {
 
-		$time->add(0, 50);
+        $time = new Time(0, 0, 10);
 
-		$time->add(0, 0, 20);
+        $time2 = Time::createFromFormat('%h:%i:%s', '00:00:10');
 
-		$time->add(-3);
-
-		$this->assertEquals(
-			'04:50:20',
-			$time->format()
-		);
-	}
+        $this->assertEquals(
+            $time->format(),
+            $time2->format()
+        );
+    }
 
 
-	public function testCreateFromString()
-	{
-		$time = Time::createFromString('+2 day');
+    public function testDiff()
+    {
+        $time = new Time(0, 0, 10);
 
-		$time->addMinutes(25);
-
-		$this->assertEquals(
-			'48:25:00',
-			$time->format()
-		);
-
-		$time2 = Time::createFromString('100 hours 5 minutes');
-
-		$this->assertEquals(
-			'100:05:00',
-			$time2->format()
-		);
-	}
+        $time2 = new Time(0, 0, 5);
 
 
-	public function testFormat()
-	{
+        $this->assertEquals(
+            5,
+            $time->diff($time2, true)->getSeconds()
+        );
 
-		$time = Time::create(23, 59, 59);
+        $this->assertEquals(
+            -5,
+            $time2->diff($time, false)->getSeconds()
+        );
 
-		$time->setFormat("%hh%im%ss");
+        $this->assertEquals(
+            5,
+            $time2->diff($time, true)->getSeconds()
+        );
+    }
 
-		$this->assertEquals(
-			'23h59m59s',
-			$time->format()
-		);
+    public function testAddMethod()
+    {
+        $time = Time::create();
 
-		$this->assertEquals(
-			'H[23]M[59]S[59]',
-			$time->format("H[%h]M[%i]S[%s]")
-		);
-	}
+        $time->add(7);
 
+        $time->add(0, 50);
 
-	public function testTotalMinutes()
-	{
-		$time = Time::create(2, 20, 0);
+        $time->add(0, 0, 20);
 
-		$this->assertEquals(
-			'140:00',
-			$time->format('%I:%s')
-		);
-	}
+        $time->add(-3);
 
-	public function testMultiply()
-	{
-		$time = Time::create(2, 20, 0);
-
-		$this->assertEquals(
-			'07:00:00',
-			$time->multiply(3)->format()
-		);
-	
-		$this->assertEquals(
-			'100:50:00',
-			Time::createFromFormat('%h:%i', '20:10')->multiply(5)->format()
-		);
+        $this->assertEquals(
+            '04:50:20',
+            $time->format()
+        );
+    }
 
 
-	}
+    public function testCreateFromString()
+    {
+        $time = Time::createFromString('+2 day');
 
-	public function testDivide()
-	{
-		$time = Time::create(2, 20, 0)->divide(2);
+        $time->addMinutes(25);
 
-		$this->assertEquals(
-			'01:10:00',
-			$time->format()
-		);
+        $this->assertEquals(
+            '48:25:00',
+            $time->format()
+        );
 
-		try {
+        $time2 = Time::createFromString('100 hours 5 minutes');
 
-			$time->divide(0);
+        $this->assertEquals(
+            '100:05:00',
+            $time2->format()
+        );
+    }
 
-		} catch (\Exception $e) {
 
-			$this->assertInstanceOf('InvalidArgumentException', $e);
-		}
-	}
+    public function testFormat()
+    {
+
+        $time = Time::create(23, 59, 59);
+
+        $time->setFormat("%hh%im%ss");
+
+        $this->assertEquals(
+            '23h59m59s',
+            $time->format()
+        );
+
+        $this->assertEquals(
+            'H[23]M[59]S[59]',
+            $time->format("H[%h]M[%i]S[%s]")
+        );
+    }
+
+
+    public function testTotalMinutes()
+    {
+        $time = Time::create(2, 20, 0);
+
+        $this->assertEquals(
+            '140:00',
+            $time->format('%I:%s')
+        );
+    }
+
+    public function testMultiply()
+    {
+        $time = Time::create(2, 20, 0);
+
+        $this->assertEquals(
+            '07:00:00',
+            $time->multiply(3)->format()
+        );
+    
+        $this->assertEquals(
+            '100:50:00',
+            Time::createFromFormat('%h:%i', '20:10')->multiply(5)->format()
+        );
+    }
+
+    public function testDivide()
+    {
+        $time = Time::create(2, 20, 0)->divide(2);
+
+        $this->assertEquals(
+            '01:10:00',
+            $time->format()
+        );
+
+        try {
+
+            $time->divide(0);
+
+        } catch (\Exception $e) {
+
+            $this->assertInstanceOf('InvalidArgumentException', $e);
+        }
+    }
 }
