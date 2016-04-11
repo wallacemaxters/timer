@@ -11,7 +11,7 @@
     },
     "autoload" : {
         "psr-4": {
-            "WallaceMaxters\\": "src/WallaceMaxters/"
+            "WallaceMaxters\\Timer\\": "src/WallaceMaxters/Timer/"
         }
     }
 }
