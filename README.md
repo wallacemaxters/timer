@@ -1,16 +1,16 @@
-#Time Library
+#WallaceMaxters\Timer Library
 
-This is a library for PHP for work with time.
+This is a library to work only with time in PHP.
 
-In PHP, the DateTime has a limitation because doesnt work with times greather than 24 hours.
+Sometimes we need to work with hours, passing 24 in php, but the DateTime class or other functions to date do not have a satisfactory solution;
 
+So developed the Timer library.
 
-The Timer library solves this problem.
-
-See:
+With it you can work with the time very simply:
 
 
 ```php
+
 use WallaceMaxters\Timer\Time;
 
 $time = Time::create(0, 0, 10);
@@ -27,9 +27,22 @@ $time->format('%h:%i%s'); // '-00:00:10'
 
 ```
 
-For use collection:
+If necessary you can also also use the Collection class, to facilitate some operations over time.
 
-``php
+```php
 
+use WallaceMaxters\Timer\Collection;
+
+$collection = new Collection;
+
+$collection[] = Time::create(0, 10, 0);
+
+$collection[] = Time::createFromString('10 seconds');
+
+$collection[] = Time::createFromFormat('%h:%i', '00:50');
+
+$collection->sum(); // new Time(0, 11, 0);
+
+$collection->min(); // new time(0, 0, 10); 
 
 ```
