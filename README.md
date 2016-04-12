@@ -10,7 +10,6 @@ With it you can work with the time very simply:
 
 
 ```php
-
 use WallaceMaxters\Timer\Time;
 
 $time = Time::create(0, 0, 10);
@@ -50,9 +49,7 @@ $collection->min(); // new time(0, 0, 10);
 An example for time greather than 24 hours:
 
 ```php
-
 // DateTime
-
 $date = DateTime::createFromFormat('25:00:00');
 
 var_dump($date->format('H:i:s')); // 01:00:00
