@@ -46,3 +46,21 @@ $collection->sum(); // new Time(0, 11, 0);
 $collection->min(); // new time(0, 0, 10); 
 
 ```
+
+An example for time greather than 24 hours:
+
+```php
+
+// DateTime
+
+$date = DateTime::createFromFormat('25:00:00');
+
+var_dump($date->format('H:i:s')); // 01:00:00
+
+// WallaceMaxters\Timer\Timer
+
+$time = Time::createFromFormat('%h:%i:%s', '26:00:00');
+
+var_dump($time->format()); // '26:00:00'
+
+```
