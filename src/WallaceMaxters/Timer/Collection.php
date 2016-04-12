@@ -2,13 +2,13 @@
 
 namespace WallaceMaxters\Timer;
 
-use PHPLegends\Collections\Collection as BaseCollection;
+use PHPLegends\Collections\MathCollection;
 
 /**
  * @author Wallace de Souza Vizerra <wallacemaxters@gmail.com>
  * */
 
-class Collection extends BaseCollection
+class Collection extends MathCollection
 {
 
     /**
@@ -95,18 +95,23 @@ class Collection extends BaseCollection
     /**
     * Create a new instance of WallaceMaxters\Timer\Time with all
     * seconds of items of colection objets summed
-    * @return \Wallacemaxters\Timer\Collection
+    * @return \Wallacemaxters\Timer\Time | mixed
     */
 
-    public function sum()
+    public function sum(callable $callback = null)
     {
-        $seconds = $this->reduce(function ($result, Time $time)
+
+        if ($callback === null)
         {
-            return $result += $time->getSeconds();
+            $callback = function ($time) {
 
-        }, 0);
+                return $time->getSeconds();
+            };
 
-        return $this->createTime(0, 0, $seconds);
+            return $this->createTime(0, 0, parent::sum($callback));
+        }
+
+        return parent::sum($callback);
     }
 
     /**
@@ -125,31 +130,63 @@ class Collection extends BaseCollection
 
     /**
      * Returns the major time
-     * @return \WallaceMaxters\Timer\Time
+     * @param callable|null $callback
+     * @return \WallaceMaxters\Timer\Time | mixed
      * */
-    public function max()
+    public function max(callable $callback = null)
     {
-        return $this->createTime(0, 0, max($this->toArrayOfSeconds()));
+        if ($callback === null) {
+
+            $callback = function ($time)
+            {
+                return $time->getSeconds();
+            };
+
+            return $this->createTime(0, 0, parent::max($callback));
+
+        }
+
+        return parent::max($callback);
     }
 
     /**
      * Return the minor time
      * @return \WallaceMaxters\Timer\Time
     **/
-    public function min()
+    public function min(callable $callback = null)
     {
-        return $this->createTime(0, 0, min($this->toArrayOfSeconds()));
+
+        if ($callback === null) {
+
+            $callback = function ($time)
+            {
+                return $time->getSeconds();
+            };
+
+            return $this->createTime(0, 0, parent::min($callback));
+        }
+
+        return parent::min($callback);
     }
 
     /**
      * Returns the averaged time of the collection
      * @return Time
      * */
-    public function average()
+    public function average(callable $callback = null)
     {
-        $average = floor($this->sum()->getSeconds() / $this->count());
 
-        return $this->createTime(0, 0, $average);
+        if ($callback ===  null) {
+
+            $average = parent::average(function ($time)
+            {
+                return $time->getSeconds();
+            });
+
+            return $this->createTime(0, 0, $average);
+        }
+
+        return parent::average($callback);
     }
 
     /**

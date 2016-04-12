@@ -44,4 +44,27 @@ class PaserTest extends PHPUnit_Framework_TestCase
             );
         }
     }
+
+    public function testValidateFormat()
+    {
+        $parser = new Parser;
+
+        $valids = ['61:50:00', '00:59:10', '00:21:59'];
+
+        foreach ($valids as $valid)
+        {
+            $this->assertTrue(
+                $parser->isValidFormat('%h:%i:%s', $valid)
+            );
+        }
+
+        $invalids = ['10:62:00', '00:06:70', '99:00:90', '0:0:1'];
+
+        foreach ($invalids as $invalid)
+        {
+            $this->assertFalse($parser->isValidFormat('%h:%i:%s', $invalid));
+        }
+
+
+    }
 }

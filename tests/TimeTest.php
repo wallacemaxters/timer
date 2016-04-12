@@ -1,6 +1,7 @@
 <?php
 
 use WallaceMaxters\Timer\Time;
+use WallaceMaxters\Timer\Parser;
 
 class TimeTest extends PHPUnit_Framework_TestCase
 {
@@ -183,4 +184,5 @@ class TimeTest extends PHPUnit_Framework_TestCase
             $this->assertInstanceOf('InvalidArgumentException', $e);
         }
     }
+
 }

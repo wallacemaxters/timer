@@ -275,7 +275,7 @@ class Time implements JsonSerializable
      * Get members of time in an array 
      * @return array
      * */
-    protected function getMembers()
+    public function getMembers()
     {
         $time = [];
 

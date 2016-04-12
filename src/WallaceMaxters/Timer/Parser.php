@@ -75,5 +75,15 @@ class Parser
         return $matches + $defaults;
     }
 
+    /**
+     * @param string $format
+     * @param string $value
+     * @return boolean
+     * */
+    public function isValidFormat($format, $value)
+    {
+        return (boolean) preg_match($regex = $this->getRegex($format), $value);
+    }
+
 
 }

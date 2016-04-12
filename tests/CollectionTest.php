@@ -165,4 +165,27 @@ class CollectionTest extends PHPUnit_Framework_TestCase
     }
 
 
+    public function testMathMethodsWithCallbacks()
+    {
+        $times = Collection::create();
+
+        $times->add(
+            Time::createFromFormat(Time::DEFAULT_FORMAT, '00:20:00')
+        );
+
+        $times[] = Time::create(0, 20, 10);
+
+        $seconds = $times->sum(function ($time)
+        {
+            return $time->getSeconds();
+        });
+
+        $this->assertEquals(
+            (20 * 60) + ((20 * 60) + 10),
+            $seconds
+        );
+
+    }
+
+
 }
