@@ -135,14 +135,16 @@ class Collection extends MathCollection
      * */
     public function max(callable $callback = null)
     {
-        if ($callback === null) {
 
-            $callback = function ($time)
-            {
-                return $time->getSeconds();
-            };
+        if ($this->isEmpty()) {
 
-            return $this->createTime(0, 0, parent::max($callback));
+            return $this->createTime(0, 0, 0);
+
+        } elseif ($callback === null) {
+
+            $seconds = max($this->toArrayOfSeconds());
+
+            return $this->createTime(0, 0, $seconds);
 
         }
 
@@ -155,15 +157,15 @@ class Collection extends MathCollection
     **/
     public function min(callable $callback = null)
     {
+        if ($this->isEmpty()) {
+            
+            return $this->createTime(0, 0, 0);
 
-        if ($callback === null) {
+        } elseif ($callback === null) {
 
-            $callback = function ($time)
-            {
-                return $time->getSeconds();
-            };
+            $seconds = min($this->toArrayOfSeconds());
 
-            return $this->createTime(0, 0, parent::min($callback));
+            return $this->createTime(0, 0, $seconds);
         }
 
         return parent::min($callback);
@@ -240,6 +242,20 @@ class Collection extends MathCollection
         if (! $time instanceof Time) {
 
             $time = $this->createTime(0, 0, $time);
+        }
+
+        return $time;
+    }
+
+    /**
+     * @param Time|int $item
+     * @return int
+     * */
+    protected function getAsSeconds($time)
+    {
+        if ($time instanceof Time)
+        {
+            return $time->getSeconds();
         }
 
         return $time;

@@ -187,5 +187,108 @@ class CollectionTest extends PHPUnit_Framework_TestCase
 
     }
 
+    public function testMaxMinAndAverage()
+    {
+        $c = Collection::create([10, 20, 30]);
+
+        $this->assertEquals(30, $c->max()->getSeconds());
+
+        $this->assertEquals(10, $c->min()->getSeconds());
+
+        $this->assertEquals((10+20+30)/3, $c->average()->getSeconds());
+
+
+        $c->max(function ($time)
+        {
+            return $time;
+            
+        })->getSeconds();
+
+
+        // Test empty collection
+
+        $this->assertEquals(0, $c->clear()->max()->getSeconds());
+
+        $this->assertEquals(0, $c->clear()->min()->getSeconds());
+
+        $this->assertEquals(0, $c->clear()->sum()->getSeconds());
+    }
+
+    public function testUnique()
+    {
+        $c = Collection::create([10, 20]);
+
+        $c[] = Time::create(0, 0, 20); // repeated
+
+        $c[] = 40; 
+
+        $c[] = Time::create(0, 0, 40); // repeated
+
+        $this->assertCount(3, $c->unique());
+
+        $this->assertEquals(
+            [10, 20, 40],
+            array_values($c->unique()->toArrayOfSeconds())
+        );
+    }
+
+
+    public function testAddAll()
+    {
+
+
+        $c1 = Collection::create([5, 10, 15, 20]);
+
+        $c2 = Collection::create([4, 6, 8, 12]);
+
+        $c1->addAll($c2);
+
+        $this->assertCount(8, $c1);
+
+    }
+
+    public function testRemoveAll()
+    {
+
+        $c1 = Collection::create([1, 3, 6, 9]);
+
+        $c2  = Collection::create([
+            $c1[0], $c1[2], 10
+        ]);
+
+        $c1->removeAll($c2);
+
+        $this->assertCount(2, $c1);
+    }
+
+    public function testRemove()
+    {
+        $time1 = Time::create(0, 20);
+
+        $c1 = Collection::create([
+            $time1, 30, 40, 50
+        ]);
+
+        $time2 = $c1[3];
+
+        $deletes[] = $c1->remove($time1);
+
+        $deletes[] = $c1->remove($time2);
+
+        $this->assertEquals([0, 3], $deletes);
+    }
+
+    public function testSearch()
+    {
+        $c = Collection::create([10, 20, 30]);
+
+        $time = $c->last();
+
+        $this->assertEquals(
+            2,
+            $c->search($time)
+        );
+    }
+
 
 }
