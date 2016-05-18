@@ -6,9 +6,10 @@ use JsonSerializable;
 use PHPLegends\Collections\Arrayable;
 
 /**
+ * Class for work with Times
+ * 
  * @author Wallace de Souza Vizerra <wallacemaxters@gmail.com>
  * 
- * Time class for work with timer
  * */
 class Time implements JsonSerializable
 {
@@ -311,6 +312,17 @@ class Time implements JsonSerializable
             self::SECOND_FORMAT        => $time['seconds'], 
             self::TOTAL_MINUTES_FORMAT => $time['total_minutes'],
         ];
+    }
+
+    /**
+     * Gets the default format
+     * 
+     * @return string
+    */
+
+    public function getFormat()
+    {
+        return $this->format;
     }
     
 }
