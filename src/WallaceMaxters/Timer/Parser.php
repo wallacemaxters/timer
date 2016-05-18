@@ -3,6 +3,8 @@
 namespace WallaceMaxters\Timer;
 
 /**
+ * Parser for create Time instancef from format
+ * 
  * @author Wallace de Souza Vizerra <wallacemaxters@gmail.com>
 */
 
@@ -82,7 +84,7 @@ class Parser
      * */
     public function isValidFormat($format, $value)
     {
-        return (boolean) preg_match($regex = $this->getRegex($format), $value);
+        return (boolean) preg_match($this->getRegex($format), $value);
     }
 
 
