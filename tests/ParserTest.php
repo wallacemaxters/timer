@@ -58,7 +58,7 @@ class PaserTest extends PHPUnit_Framework_TestCase
             );
         }
 
-        $invalids = ['10:62:00', '00:06:70', '99:00:90', '0:0:1'];
+        $invalids = ['10:62:00', '00:06:70', '99:00:90', '0:0:1', '00:0:05'];
 
         foreach ($invalids as $invalid)
         {

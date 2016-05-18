@@ -236,7 +236,6 @@ class CollectionTest extends PHPUnit_Framework_TestCase
     public function testAddAll()
     {
 
-
         $c1 = Collection::create([5, 10, 15, 20]);
 
         $c2 = Collection::create([4, 6, 8, 12]);
@@ -289,6 +288,4 @@ class CollectionTest extends PHPUnit_Framework_TestCase
             $c->search($time)
         );
     }
-
-
 }
