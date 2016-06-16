@@ -185,4 +185,16 @@ class TimeTest extends PHPUnit_Framework_TestCase
         }
     }
 
+
+    public function testIsZero()
+    {
+        $time = Time::createFromFormat('%h:%i:%s', '00:50:10');
+
+        $this->assertFalse($time->isZero());
+
+        $time->setSeconds(0);
+
+        $this->assertTrue($time->isZero());
+    }
+
 }

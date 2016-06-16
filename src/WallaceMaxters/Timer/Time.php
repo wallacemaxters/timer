@@ -324,5 +324,16 @@ class Time implements JsonSerializable
     {
         return $this->format;
     }
+
+    /**
+     * Is zero?
+     * 
+     * @return boolean
+     * */
+
+    public function isZero()
+    {
+        return $this->getSeconds() === 0;
+    }
     
 }
