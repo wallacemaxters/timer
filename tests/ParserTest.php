@@ -65,6 +65,32 @@ class PaserTest extends PHPUnit_Framework_TestCase
             $this->assertFalse($parser->isValidFormat('%h:%i:%s', $invalid));
         }
 
+    }
 
+    public function testNegativeSign()
+    {
+       $parser = new Parser;
+       
+       $this->assertTrue($parser->isValidFormat('%r%h:%i:%s', '-00:00:05'));
+
+       $this->assertTrue($parser->isValidFormat('%r%h:%i:%s', '00:00:05'));
+
+       $this->assertFalse($parser->isValidFormat('%r%h:%i:%s', '+00:00:05'));
+
+       $this->assertFalse($parser->isValidFormat('%r%h:%i:%s', '--00:00:05'));
+
+
+       $time = $parser->fromFormat('%r%h:%i:%s', '-00:00:55');
+
+       $this->assertTrue($time->isNegative());
+
+
+       // Isso em que dar falso sempre!
+
+       $this->assertFalse($parser->isValidFormat('%r%h:%i:%s', '+00:00:55'));
+
+       $this->assertTrue($parser->isValidFormat('%R%h:%i:%s', '+00:00:55'));
+
+       $this->assertTrue($parser->isValidFormat('%R%h:%i:%s', '-00:00:55'));
     }
 }

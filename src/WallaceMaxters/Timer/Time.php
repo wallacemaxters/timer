@@ -22,7 +22,11 @@ class Time implements JsonSerializable
 
     const TOTAL_MINUTES_FORMAT = '%I';
 
-    const DEFAULT_FORMAT = '%h:%i:%s';
+    const SIGN_NEGATIVE = '%r';
+
+    const SIGN_ANY = '%R';
+
+    const DEFAULT_FORMAT = '%r%h:%i:%s';
 
     /**
      * @var int
@@ -150,9 +154,7 @@ class Time implements JsonSerializable
     {
         $format ?: $format = $this->format;
 
-        $output = strtr($format, $this->getFormattedReplacements());
-
-        return $this->isNegative() ? '-' . $output : $output;
+        return strtr($format, $this->getFormattedReplacements());
     }
 
     /**
@@ -296,21 +298,22 @@ class Time implements JsonSerializable
 
     /**
      * Gets replacements for the format method
+     * 
      * @return array
      * */
     protected function getFormattedReplacements()
     {
-        $zfill = function ($member) {
-            return sprintf('%02d', $member);
-        };
+        $time = $this->getMembers();
 
-        $time = array_map($zfill, $this->getMembers());
+        $negative = $this->isNegative();
 
         return [
-            self::HOUR_FORMAT          => $time['hours'],
-            self::MINUTE_FORMAT        => $time['minutes'], 
-            self::SECOND_FORMAT        => $time['seconds'], 
-            self::TOTAL_MINUTES_FORMAT => $time['total_minutes'],
+            self::HOUR_FORMAT          => sprintf('%02d', $time['hours']),
+            self::MINUTE_FORMAT        => sprintf('%02d', $time['minutes']), 
+            self::SECOND_FORMAT        => sprintf('%02d', $time['seconds']), 
+            self::TOTAL_MINUTES_FORMAT => sprintf('%02d', $time['total_minutes']),
+            self::SIGN_ANY             => $negative ? '-' : '+',
+            self::SIGN_NEGATIVE        => $negative ? '-'  : '',
         ];
     }
 

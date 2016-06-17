@@ -197,4 +197,33 @@ class TimeTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($time->isZero());
     }
 
+    public function testFormatNegativeSign()
+    {
+
+        // Positive
+
+        $time = Time::createFromFormat('%h:%i:%s', '00:50:00');
+
+        $this->assertEquals('00:50:00', $time->format('%r%h:%i:%s'));
+
+        $this->assertEquals('+00:50:00', $time->format('%R%h:%i:%s'));
+
+
+        // Negative
+
+
+        $time2 = Time::createFromFormat('%R%h:%i:%s', '-02:00:00');
+
+        $this->assertEquals('-02:00:00', $time2->format('%R%h:%i:%s'));
+
+        $this->assertEquals('-02:00:00', $time2->format('%r%h:%i:%s'));
+
+
+        // Positive with R
+
+        $time = Time::createFromFormat('%R%h:%i:%s', '+22:00:00');
+
+        $this->assertEquals('+22:00', $time->format('%R%h:%i'));
+    }
+
 }

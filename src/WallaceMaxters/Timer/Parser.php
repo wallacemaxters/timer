@@ -21,12 +21,20 @@ class Parser
     {
         $matches = $this->getMatches($format, $value);
 
-        return new Time($matches['h'], $matches['i'], $matches['s']);
+        $time = new Time($matches['h'], $matches['i'], $matches['s']);
+
+        if ($this->isNegativeSign($matches['r'])) {
+
+            $time->multiply(-1);            
+        }
+
+        return $time;
+
     }
 
     /**
-    * @throws \InvalidArgumentException
-    * @return array
+     * 
+     * @return array
     */
     protected function getReplacements()
     {
@@ -34,6 +42,8 @@ class Parser
             Time::HOUR_FORMAT   => '(?<h>\d+)',
             Time::MINUTE_FORMAT => '(?<i>[0-5][0-9])',
             Time::SECOND_FORMAT => '(?<s>[0-5][0-9])',
+            Time::SIGN_NEGATIVE => '(?<r>\-{1})?',
+            Time::SIGN_ANY      => '(?<r>[\+\-]{1})',
         ];
     }
 
@@ -70,6 +80,7 @@ class Parser
             'h' => 0,
             'i' => 0, 
             's' => 0,
+            'r' => '+'
         ];                                                                        
 
         $matches = array_intersect_key($matches, $defaults);
@@ -85,6 +96,15 @@ class Parser
     public function isValidFormat($format, $value)
     {
         return (boolean) preg_match($this->getRegex($format), $value);
+    }
+
+    /**
+     * 
+     * @return boolean
+     * */
+    protected function isNegativeSign($sign)
+    {
+        return $sign === '-';
     }
 
 
