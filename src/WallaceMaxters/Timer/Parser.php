@@ -31,9 +31,9 @@ class Parser
     protected function getReplacements()
     {
         return [
-            Time::HOUR_FORMAT   => sprintf('(?<h>\d+)', Time::HOUR_FORMAT),
-            Time::MINUTE_FORMAT => sprintf('(?<i>[0-5][0-9])', Time::MINUTE_FORMAT),
-            Time::SECOND_FORMAT => sprintf('(?<s>[0-5][0-9])', Time::SECOND_FORMAT),
+            Time::HOUR_FORMAT   => '(?<h>\d+)',
+            Time::MINUTE_FORMAT => '(?<i>[0-5][0-9])',
+            Time::SECOND_FORMAT => '(?<s>[0-5][0-9])',
         ];
     }
 
