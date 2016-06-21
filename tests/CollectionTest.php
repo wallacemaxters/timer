@@ -38,7 +38,7 @@ class CollectionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(
             Time::create(0, 0, $avg)->format(),
             $collection->average()->format()
-            
+
         );
     }
 
@@ -73,7 +73,7 @@ class CollectionTest extends PHPUnit_Framework_TestCase
 
         $collection = Collection::create([
             10, 11, 12, 13, 14, 15
-        ]); 
+        ]);
 
         // Now, filter method return new Collection instance
 
@@ -81,7 +81,7 @@ class CollectionTest extends PHPUnit_Framework_TestCase
         {
             return $time->getSeconds() % 2 == 0;
         });
-        
+
 
         $this->assertEquals(
             10 + 12 + 14,
@@ -144,7 +144,7 @@ class CollectionTest extends PHPUnit_Framework_TestCase
             Time::create(0, 10, 10)
         ]);
 
-        $collection->add(50);       
+        $collection->add(50);
 
         // Check if all is Instance of time
 
@@ -201,7 +201,7 @@ class CollectionTest extends PHPUnit_Framework_TestCase
         $c->max(function ($time)
         {
             return $time;
-            
+
         })->getSeconds();
 
 
@@ -220,7 +220,7 @@ class CollectionTest extends PHPUnit_Framework_TestCase
 
         $c[] = Time::create(0, 0, 20); // repeated
 
-        $c[] = 40; 
+        $c[] = 40;
 
         $c[] = Time::create(0, 0, 40); // repeated
 
@@ -287,5 +287,18 @@ class CollectionTest extends PHPUnit_Framework_TestCase
             2,
             $c->search($time)
         );
+    }
+
+    public function testWithFloatValues()
+    {
+        $c = new Collection([2.5, 2.5, 1.5, 3.5]);
+
+        $this->assertEquals(10, $c->sum()->getSeconds());
+
+        $c->add(2.5);
+
+        $this->assertEquals(12.5, $c->sum()->getSeconds());
+
+        $this->assertEquals('00:00:12', $c->sum()->format());
     }
 }

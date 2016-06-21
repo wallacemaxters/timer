@@ -4,7 +4,7 @@ namespace WallaceMaxters\Timer;
 
 /**
  * Parser for create Time instancef from format
- * 
+ *
  * @author Wallace de Souza Vizerra <wallacemaxters@gmail.com>
 */
 
@@ -25,7 +25,7 @@ class Parser
 
         if ($this->isNegativeSign($matches['r'])) {
 
-            $time->multiply(-1);            
+            $time->multiply(-1);
         }
 
         return $time;
@@ -33,7 +33,7 @@ class Parser
     }
 
     /**
-     * 
+     *
      * @return array
     */
     protected function getReplacements()
@@ -78,10 +78,10 @@ class Parser
 
         $defaults = [
             'h' => 0,
-            'i' => 0, 
+            'i' => 0,
             's' => 0,
             'r' => '+'
-        ];                                                                        
+        ];
 
         $matches = array_intersect_key($matches, $defaults);
 
@@ -99,7 +99,7 @@ class Parser
     }
 
     /**
-     * 
+     *
      * @return boolean
      * */
     protected function isNegativeSign($sign)

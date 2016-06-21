@@ -23,6 +23,27 @@ class TimeTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(7200, $time->getSeconds());
     }
 
+    public function testFloatValues()
+    {
+        $time = new Time(1.5);
+
+        $this->assertEquals(5400, $time->getSeconds());
+
+        $this->assertEquals('01:30:00', $time->format());
+
+        $time->addHours(0.5);
+
+        $this->assertEquals('02:00:00', $time->format());
+
+        $time->setHours(2.75);
+
+        $this->assertEquals('02:45:00', $time->format());
+
+        $time = new Time(0.5, 0.75, 0);
+
+        $this->assertEquals('00:30:45', $time->format());
+    }
+
 
     public function testNegative()
     {
@@ -159,7 +180,7 @@ class TimeTest extends PHPUnit_Framework_TestCase
             '07:00:00',
             $time->multiply(3)->format()
         );
-    
+
         $this->assertEquals(
             '100:50:00',
             Time::createFromFormat('%h:%i', '20:10')->multiply(5)->format()
@@ -195,6 +216,10 @@ class TimeTest extends PHPUnit_Framework_TestCase
         $time->setSeconds(0);
 
         $this->assertTrue($time->isZero());
+
+        // Test for new "Float" implementation
+
+        $this->assertTrue($time->setSeconds(0.0)->isZero());
     }
 
     public function testFormatNegativeSign()

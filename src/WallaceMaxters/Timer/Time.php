@@ -7,9 +7,9 @@ use PHPLegends\Collections\Arrayable;
 
 /**
  * Class for work with Times
- * 
+ *
  * @author Wallace de Souza Vizerra <wallacemaxters@gmail.com>
- * 
+ *
  * */
 class Time implements JsonSerializable
 {
@@ -29,7 +29,7 @@ class Time implements JsonSerializable
     const DEFAULT_FORMAT = '%r%h:%i:%s';
 
     /**
-     * @var int
+     * @var float
      * */
 
     protected $seconds = 0;
@@ -39,13 +39,13 @@ class Time implements JsonSerializable
      * The output format
      * */
     protected $format = self::DEFAULT_FORMAT;
-    
+
 
     /**
     * The constructor
-    * @param int $hours
-    * @param int $minutes
-    * @param int $seconds
+    * @param float $hours
+    * @param float $minutes
+    * @param float $seconds
     */
     public function __construct($hours = 0, $minutes = 0, $seconds = 0)
     {
@@ -55,9 +55,9 @@ class Time implements JsonSerializable
     /**
     * Easy way for chainability
     * @static
-    * @param int $hours
-    * @param int $minutes
-    * @param int $seconds
+    * @param float $hours
+    * @param float $minutes
+    * @param float $seconds
     * @return static
     */
 
@@ -67,24 +67,25 @@ class Time implements JsonSerializable
     }
 
     /**
-     * @param int $hours 
-     * @param int $minutes
-     * @param int $seconds 
+     * @param float $hours
+     * @param float $minutes
+     * @param float $seconds
      * @return $this
      * */
 
     public function setTime($hours, $minutes, $seconds)
     {
+        $this->seconds  = ((float) $hours) * 3600;
 
-        $this->seconds  = ((int) $hours) * 3600;
-        $this->seconds += ((int) $minutes) * 60;
-        $this->seconds += (int) $seconds;
+        $this->seconds += ((float) $minutes) * 60;
+
+        $this->seconds += (float) $seconds;
 
         return $this;
     }
 
     /**
-     * @param int $seconds
+     * @param float $seconds
      * */
     public function setSeconds($seconds)
     {
@@ -94,7 +95,7 @@ class Time implements JsonSerializable
     }
 
     /**
-     * @param minutes $minutes
+     * @param float $minutes
      * */
     public function setMinutes($minutes)
     {
@@ -102,7 +103,7 @@ class Time implements JsonSerializable
     }
 
     /**
-     * @param int $hours
+     * @param float $hours
      * */
     public function setHours($hours)
     {
@@ -111,34 +112,34 @@ class Time implements JsonSerializable
 
     /**
      * Add seconds
-     * @param $seconds
+     * @param float $seconds
      * */
     public function addSeconds($seconds)
     {
-        return $this->setTime(0, 0, $this->seconds + (int)$seconds);
+        return $this->setTime(0, 0, $this->seconds + (float) $seconds);
     }
 
     /**
      * Add minutes
-     * @param int $minutes
+     * @param float $minutes
      * */
     public function addMinutes($minutes)
     {
-        return $this->setTime(0, (int) $minutes, $this->seconds);
+        return $this->setTime(0, $minutes, $this->seconds);
     }
 
     /**
      * Add hours
-     * @param int $hours
+     * @param float $hours
      * */
     public function addHours($hours)
     {
-        return $this->setTime((int) $hours, 0, $this->seconds);
+        return $this->setTime($hours, 0, $this->seconds);
     }
-    
+
     /**
      * Get seconds from total hours defined
-     * @return int
+     * @return float
      * */
     public function getSeconds()
     {
@@ -147,7 +148,7 @@ class Time implements JsonSerializable
 
     /**
      * Format the output timey
-     * @param string $format 
+     * @param string $format
      * @return string
      * */
     public function format($format = null)
@@ -176,10 +177,10 @@ class Time implements JsonSerializable
     {
         return $this->format($this->format);
     }
-        
+
     /**
      * Get a new instance of WallaceMaxters\Timer\Time of diff with another Time
-     * 
+     *
      * @param Time $time time for comparation
      * @param boolean $absolute
      * @return \WallaceMaxters\Timer\Time
@@ -232,11 +233,11 @@ class Time implements JsonSerializable
     }
 
     /**
-    * 
-    * @param int $hours
-    * @param int $minutes
-    * @param int $seconds
-    * @return \WallaceMaxters\Timer\Time
+    *
+    * @param float $hours
+    * @param float $minutes
+    * @param float $seconds
+    * @return self
     */
 
     public function add($hours = 0, $minutes = 0, $seconds = 0)
@@ -247,15 +248,15 @@ class Time implements JsonSerializable
     }
 
     /**
-     * @param int $number
-     * @return $this
+     * @param float $number
+     * @return self
      * */
 
     public function divide($number)
     {
-        $number = (int) $number;
+        $number = (float) $number;
 
-        if ($number === 0) {
+        if ($number == 0) {
 
             throw new \InvalidArgumentException('Division by zero');
         }
@@ -264,18 +265,18 @@ class Time implements JsonSerializable
     }
 
     /**
-     * @param int $number
+     * @param float $number
      * @return $this
      * */
     public function multiply($number)
     {
-        $number = (int) $number;
+        $number = (float) $number;
 
         return $this->setSeconds($this->getSeconds() * $number);
     }
 
     /**
-     * Get members of time in an array 
+     * Get members of time in an array
      * @return array
      * */
     public function getMembers()
@@ -298,7 +299,7 @@ class Time implements JsonSerializable
 
     /**
      * Gets replacements for the format method
-     * 
+     *
      * @return array
      * */
     protected function getFormattedReplacements()
@@ -309,8 +310,8 @@ class Time implements JsonSerializable
 
         return [
             self::HOUR_FORMAT          => sprintf('%02d', $time['hours']),
-            self::MINUTE_FORMAT        => sprintf('%02d', $time['minutes']), 
-            self::SECOND_FORMAT        => sprintf('%02d', $time['seconds']), 
+            self::MINUTE_FORMAT        => sprintf('%02d', $time['minutes']),
+            self::SECOND_FORMAT        => sprintf('%02d', $time['seconds']),
             self::TOTAL_MINUTES_FORMAT => sprintf('%02d', $time['total_minutes']),
             self::SIGN_ANY             => $negative ? '-' : '+',
             self::SIGN_NEGATIVE        => $negative ? '-'  : '',
@@ -319,7 +320,7 @@ class Time implements JsonSerializable
 
     /**
      * Gets the default format
-     * 
+     *
      * @return string
     */
 
@@ -330,13 +331,13 @@ class Time implements JsonSerializable
 
     /**
      * Is zero?
-     * 
+     *
      * @return boolean
      * */
 
     public function isZero()
     {
-        return $this->getSeconds() === 0;
+        return $this->getSeconds() == 0;
     }
-    
+
 }

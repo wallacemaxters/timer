@@ -16,7 +16,7 @@ class Collection extends MathCollection
      * */
 
     protected $format = Time::DEFAULT_FORMAT;
-    
+
     /**
      * @{inheritdoc}
      * */
@@ -47,7 +47,7 @@ class Collection extends MathCollection
 
         return parent::set($key, $time);
     }
-    
+
     /**
      * @param array $items
      * @param false $recursive
@@ -61,7 +61,7 @@ class Collection extends MathCollection
     }
 
     /**
-     * Attaches a time object to collection 
+     * Attaches a time object to collection
      * @param \WallaceMaxters\Timer\Time $time
      * @return  \Wallacemaxters\Timer\Collection
      * */
@@ -158,7 +158,7 @@ class Collection extends MathCollection
     public function min(callable $callback = null)
     {
         if ($this->isEmpty()) {
-            
+
             return $this->createTime(0, 0, 0);
 
         } elseif ($callback === null) {
@@ -217,17 +217,23 @@ class Collection extends MathCollection
     }
 
     /**
-    * Make a instance of Time with collection time format
-    * @param int $hours
-    * @param int $minutes
-    * @param int $seconds
-    * @return \WallaceMaxters\Timer\Time
+     * Make a instance of Time with collection time format
+     *
+     * @param float $hours
+     * @param float $minutes
+     * @param float $seconds
+     * @return \WallaceMaxters\Timer\Time
     */
     protected function createTime($hours = 0, $minutes = 0, $seconds = 0)
     {
         return (new Time($hours, $minutes, $seconds))->setFormat($this->format);
     }
 
+    /**
+     *
+     * @param array $items
+     * @return \WallaceMaxters\Timer\Time[]
+     * */
     protected function castItemsToTime(array $items)
     {
         return array_map([$this, 'getAsTime'], $items);
@@ -260,5 +266,5 @@ class Collection extends MathCollection
 
         return $time;
     }
-   
+
 }
